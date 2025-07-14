@@ -2,12 +2,11 @@
 
 ## Checklist – Entrega da Quarta Semana
 
-> **Atenção:** Este checklist é para quem NÃO levou o Mac para casa. Siga os passos abaixo cuidadosamente:
-
 - [ ] Estudar arquiteturas de projetos em SwiftUI (MVVM e MVC)
 - [ ] Estudar UML (Diagrama de Caso de Uso)
 - [ ] Escolher uma arquitetura para o projeto
 - [ ] Construir o diagrama de caso de uso
+- [X] Criar páginas na Wiki
 - [ ] Documentar os estudos e justificativas na Wiki do repositório do GitHub:
   - [ ] Página de Estudos
   - [ ] Arquitetura do Projeto
@@ -16,7 +15,7 @@
   - [ ] Diagrama(s) de caso de uso
   - [ ] Estudo sobre UML
   - [ ] Diagrama UML
-- [ ] Criar conta no [LeetCode](https://leetcode.com) (caso não possua)
+- [X] Criar conta no [LeetCode](https://leetcode.com)
 - [ ] Resolver os exercícios em Swift:
   - [ ] [3110: Score of a String](https://leetcode.com/problems/score-of-a-string/)
   - [ ] [2769: Find the Maximum Achievable Number](https://leetcode.com/problems/find-the-maximum-achievable-number/)
