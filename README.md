@@ -2,15 +2,15 @@
 
 ## Checklist – Entrega da Quarta Semana
 
-- [ ] Estudar arquiteturas de projetos em SwiftUI (MVVM e MVC)
+- [X] Estudar arquiteturas de projetos em SwiftUI (MVVM e MVC)
 - [ ] Estudar UML (Diagrama de Caso de Uso)
-- [ ] Escolher uma arquitetura para o projeto
+- [X] Escolher uma arquitetura para o projeto
 - [ ] Construir o diagrama de caso de uso
 - [X] Criar páginas na Wiki
 - [ ] Documentar os estudos e justificativas na Wiki do repositório do GitHub:
   - [ ] Página de Estudos
   - [ ] Arquitetura do Projeto
-  - [ ] Estudo sobre arquitetura
+  - [X] Estudo sobre arquitetura
   - [ ] Conclusão
   - [ ] Diagrama(s) de caso de uso
   - [ ] Estudo sobre UML
