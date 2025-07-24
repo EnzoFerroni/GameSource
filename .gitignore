@@ -1,0 +1,16 @@
+# Xcode
+*.xcuserstate
+*.xcuserdatad/
+build/
+DerivedData/
+
+# Configuration files with sensitive data
+Config.xcconfig
+APIKeys.plist
+
+# macOS
+.DS_Store
+
+# Swift Package Manager
+.swiftpm/
+Packages/

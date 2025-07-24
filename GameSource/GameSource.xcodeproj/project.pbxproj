@@ -7,32 +7,32 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		C6B8C62F2E314A9300A57AAD /* LoginSteam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoginSteam.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C616E7732E32A2F600AEE05F /* GameSource.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GameSource.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		C6B8C6402E314D1000A57AAD /* Exceptions for "LoginSteam" folder in "LoginSteam" target */ = {
+		C616E7832E32A2F700AEE05F /* Exceptions for "GameSource" folder in "GameSource" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = C6B8C62E2E314A9300A57AAD /* LoginSteam */;
+			target = C616E7722E32A2F600AEE05F /* GameSource */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		C6B8C6312E314A9300A57AAD /* LoginSteam */ = {
+		C616E7752E32A2F600AEE05F /* GameSource */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				C6B8C6402E314D1000A57AAD /* Exceptions for "LoginSteam" folder in "LoginSteam" target */,
+				C616E7832E32A2F700AEE05F /* Exceptions for "GameSource" folder in "GameSource" target */,
 			);
-			path = LoginSteam;
+			path = GameSource;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		C6B8C62C2E314A9300A57AAD /* Frameworks */ = {
+		C616E7702E32A2F600AEE05F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -42,18 +42,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C6B8C6262E314A9300A57AAD = {
+		C616E76A2E32A2F600AEE05F = {
 			isa = PBXGroup;
 			children = (
-				C6B8C6312E314A9300A57AAD /* LoginSteam */,
-				C6B8C6302E314A9300A57AAD /* Products */,
+				C616E7752E32A2F600AEE05F /* GameSource */,
+				C616E7742E32A2F600AEE05F /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		C6B8C6302E314A9300A57AAD /* Products */ = {
+		C616E7742E32A2F600AEE05F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C6B8C62F2E314A9300A57AAD /* LoginSteam.app */,
+				C616E7732E32A2F600AEE05F /* GameSource.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,64 +61,64 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C6B8C62E2E314A9300A57AAD /* LoginSteam */ = {
+		C616E7722E32A2F600AEE05F /* GameSource */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C6B8C63A2E314A9400A57AAD /* Build configuration list for PBXNativeTarget "LoginSteam" */;
+			buildConfigurationList = C616E7842E32A2F700AEE05F /* Build configuration list for PBXNativeTarget "GameSource" */;
 			buildPhases = (
-				C6B8C62B2E314A9300A57AAD /* Sources */,
-				C6B8C62C2E314A9300A57AAD /* Frameworks */,
-				C6B8C62D2E314A9300A57AAD /* Resources */,
+				C616E76F2E32A2F600AEE05F /* Sources */,
+				C616E7702E32A2F600AEE05F /* Frameworks */,
+				C616E7712E32A2F600AEE05F /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				C6B8C6312E314A9300A57AAD /* LoginSteam */,
+				C616E7752E32A2F600AEE05F /* GameSource */,
 			);
-			name = LoginSteam;
+			name = GameSource;
 			packageProductDependencies = (
 			);
-			productName = LoginSteam;
-			productReference = C6B8C62F2E314A9300A57AAD /* LoginSteam.app */;
+			productName = GameSource;
+			productReference = C616E7732E32A2F600AEE05F /* GameSource.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		C6B8C6272E314A9300A57AAD /* Project object */ = {
+		C616E76B2E32A2F600AEE05F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
-					C6B8C62E2E314A9300A57AAD = {
+					C616E7722E32A2F600AEE05F = {
 						CreatedOnToolsVersion = 16.4;
 					};
 				};
 			};
-			buildConfigurationList = C6B8C62A2E314A9300A57AAD /* Build configuration list for PBXProject "LoginSteam" */;
+			buildConfigurationList = C616E76E2E32A2F600AEE05F /* Build configuration list for PBXProject "GameSource" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = C6B8C6262E314A9300A57AAD;
+			mainGroup = C616E76A2E32A2F600AEE05F;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = C6B8C6302E314A9300A57AAD /* Products */;
+			productRefGroup = C616E7742E32A2F600AEE05F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C6B8C62E2E314A9300A57AAD /* LoginSteam */,
+				C616E7722E32A2F600AEE05F /* GameSource */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		C6B8C62D2E314A9300A57AAD /* Resources */ = {
+		C616E7712E32A2F600AEE05F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -128,7 +128,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		C6B8C62B2E314A9300A57AAD /* Sources */ = {
+		C616E76F2E32A2F600AEE05F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -138,7 +138,75 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		C6B8C6382E314A9400A57AAD /* Debug */ = {
+		C616E7852E32A2F700AEE05F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = GameSource/GameSource.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JC55C9UADF;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GameSource/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.AppleDeveloperAcademyMackenzie.GameSource;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		C616E7862E32A2F700AEE05F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = GameSource/GameSource.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JC55C9UADF;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GameSource/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.AppleDeveloperAcademyMackenzie.GameSource;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		C616E7872E32A2F700AEE05F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -202,7 +270,7 @@
 			};
 			name = Debug;
 		};
-		C6B8C6392E314A9400A57AAD /* Release */ = {
+		C616E7882E32A2F700AEE05F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -259,86 +327,28 @@
 			};
 			name = Release;
 		};
-		C6B8C63B2E314A9400A57AAD /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = JC55C9UADF;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = LoginSteam/Info.plist;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.AppleDeveloperAcademyMackenzie.LoginSteam;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		C6B8C63C2E314A9400A57AAD /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = JC55C9UADF;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = LoginSteam/Info.plist;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.AppleDeveloperAcademyMackenzie.LoginSteam;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C6B8C62A2E314A9300A57AAD /* Build configuration list for PBXProject "LoginSteam" */ = {
+		C616E76E2E32A2F600AEE05F /* Build configuration list for PBXProject "GameSource" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C6B8C6382E314A9400A57AAD /* Debug */,
-				C6B8C6392E314A9400A57AAD /* Release */,
+				C616E7872E32A2F700AEE05F /* Debug */,
+				C616E7882E32A2F700AEE05F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C6B8C63A2E314A9400A57AAD /* Build configuration list for PBXNativeTarget "LoginSteam" */ = {
+		C616E7842E32A2F700AEE05F /* Build configuration list for PBXNativeTarget "GameSource" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C6B8C63B2E314A9400A57AAD /* Debug */,
-				C6B8C63C2E314A9400A57AAD /* Release */,
+				C616E7852E32A2F700AEE05F /* Debug */,
+				C616E7862E32A2F700AEE05F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = C6B8C6272E314A9300A57AAD /* Project object */;
+	rootObject = C616E76B2E32A2F600AEE05F /* Project object */;
 }
