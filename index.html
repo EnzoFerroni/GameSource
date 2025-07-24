@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Steam Auth Callback</title>
+    <script type="text/javascript">
+        // Pega todos os parâmetros da URL atual
+        const queryString = window.location.search;
+        
+        // Constrói a nova URL com o scheme customizado
+        const redirectTo = `loginsteam://callback${queryString}`;
+        
+        // Redireciona para o app
+        window.location.replace(redirectTo);
+    </script>
+</head>
+<body>
+    <p>Redirecionando para o aplicativo...</p>
+</body>
+</html>
