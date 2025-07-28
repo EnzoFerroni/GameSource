@@ -1,0 +1,48 @@
+//
+//  AuthenticatedView.swift
+//  GameSource
+//
+//  Created by Enzo Ferroni on 24/07/25.
+//
+
+import SwiftUI
+
+struct AuthenticatedView: View {
+    @EnvironmentObject var authViewModel: AuthViewModel
+    @StateObject private var gamesViewModel = GamesViewModel()
+    
+    var body: some View {
+        NavigationView {
+            VStack {
+                LibraryHeaderView(
+                    userProfile: gamesViewModel.userProfile,
+                    onLogout: {
+                        authViewModel.signOut()
+                    }
+                )
+                
+                FilterBarView(gamesViewModel: gamesViewModel)
+                
+                if gamesViewModel.isLoading {
+                    LoadingStateView()
+                } else {
+                    GameGridView(games: gamesViewModel.filteredGames)
+                }
+            }
+            .navigationBarHidden(true)
+            .onAppear {
+                loadGames()
+            }
+        }
+    }
+    
+    private func loadGames() {
+        guard let steamID = authViewModel.steamID else { return }
+        gamesViewModel.loadGames(for: steamID)
+    }
+}
+
+#Preview {
+    AuthenticatedView()
+        .environmentObject(AuthViewModel())
+}
