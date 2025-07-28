@@ -11,18 +11,42 @@ struct GameCardView: View {
     let game: SteamGame
     
     var body: some View {
-        VStack {
+        ZStack(alignment: .bottom) {
             SteamImageView(appid: game.appid)
-                .aspectRatio(2/3, contentMode: .fit)
-                .frame(maxWidth: 160)
+                .aspectRatio(2/3, contentMode: .fill)
+                .frame(width: 160, height: 240)
+                .clipped()
                 .cornerRadius(8)
             
-            Text(game.name)
-                .font(.caption)
-                .lineLimit(2)
-                .multilineTextAlignment(.center)
+            // Gradient overlay for text readability
+            LinearGradient(
+                gradient: Gradient(colors: [
+                    Color.black.opacity(0.0),
+                    Color.black.opacity(0.0),
+                    Color.black.opacity(0.0),
+                    Color.black.opacity(0.7),
+                    Color.black.opacity(1.0)
+                ]),
+                startPoint: .center,
+                endPoint: .bottom
+            )
+            .cornerRadius(8)
+            
+            // Game name overlay
+            VStack {
+                Spacer()
+                
+                Text(game.name)
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(.white)
+                    .lineLimit(2)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 8)
+                    .padding(.bottom, 12)
+                    .shadow(color: .black.opacity(0.9), radius: 2, x: 0, y: 1)
+            }
         }
-        .frame(height: 260)
+        .frame(width: 160, height: 240)
     }
 }
 
