@@ -1,10 +1,3 @@
-//
-//  SteamGame.swift
-//  GameSource
-//
-//  Created by Enzo Ferroni on 24/07/25.
-//
-
 import Foundation
 
 struct SteamGamesResponse: Codable {

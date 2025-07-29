@@ -29,5 +29,8 @@ struct SteamImageView: View {
 
 #Preview {
     SteamImageView(appid: 440)
-        .frame(width: 200, height: 100)
+        .aspectRatio(2/3, contentMode: .fill)
+        .frame(width: 160, height: 240)
+        .clipped()
+        .cornerRadius(8)
 }

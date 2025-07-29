@@ -1,10 +1,3 @@
-//
-//  GameCardView.swift
-//  GameSource
-//
-//  Created by Enzo Ferroni on 24/07/25.
-//
-
 import SwiftUI
 
 struct GameCardView: View {
@@ -22,10 +15,8 @@ struct GameCardView: View {
             LinearGradient(
                 gradient: Gradient(colors: [
                     Color.black.opacity(0.0),
-                    Color.black.opacity(0.0),
-                    Color.black.opacity(0.0),
-                    Color.black.opacity(0.7),
-                    Color.black.opacity(1.0)
+                    Color.black.opacity(0.4),
+                    Color.black.opacity(0.8)
                 ]),
                 startPoint: .center,
                 endPoint: .bottom
@@ -43,7 +34,7 @@ struct GameCardView: View {
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 8)
                     .padding(.bottom, 12)
-                    .shadow(color: .black.opacity(0.9), radius: 2, x: 0, y: 1)
+                    .shadow(color: .black.opacity(0.6), radius: 2, x: 0, y: 1)
             }
         }
         .frame(width: 160, height: 240)

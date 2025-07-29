@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  GameSource
-//
-//  Created by Enzo Ferroni on 24/07/25.
-//
-
 import SwiftUI
 
 struct ContentView: View {
