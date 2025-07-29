@@ -41,4 +41,32 @@ class SteamService {
         
         return profile
     }
+    
+    func fetchGameAchievements(steamId: String, appId: Int) async -> [SteamAchievement] {
+        let urlString = "\(baseUrl)/ISteamUserStats/GetPlayerAchievements/v0001/?appid=\(appId)&key=\(apiKey)&steamid=\(steamId)"
+        
+        guard let url = URL(string: urlString) else {
+            return []
+        }
+        
+        guard let (data, _) = try? await URLSession.shared.data(from: url),
+              let response = try? JSONDecoder().decode(SteamAchievementsResponse.self, from: data),
+              let achievements = response.playerstats.achievements else {
+            return []
+        }
+        
+        return achievements
+    }
+    
+    func calculateAchievementStats(achievements: [SteamAchievement]) -> AchievementStats {
+        let totalCount = achievements.count
+        let unlockedCount = achievements.filter { $0.isUnlocked }.count
+        let percentage = totalCount > 0 ? Double(unlockedCount) / Double(totalCount) * 100 : 0.0
+        
+        return AchievementStats(
+            totalAchievements: totalCount,
+            unlockedAchievements: unlockedCount,
+            completionPercentage: percentage
+        )
+    }
 }

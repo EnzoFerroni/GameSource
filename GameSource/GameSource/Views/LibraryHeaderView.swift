@@ -18,6 +18,7 @@ struct LibraryHeaderView: View {
                         image
                             .resizable()
                             .aspectRatio(contentMode: .fill)
+                        
                     } placeholder: {
                         Circle()
                             .fill(Color.gray.opacity(0.3))

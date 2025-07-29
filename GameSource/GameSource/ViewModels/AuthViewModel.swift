@@ -18,6 +18,15 @@ class AuthViewModel: NSObject, ObservableObject, ASWebAuthenticationPresentation
     private let steamAuthURL = "https://steamcommunity.com/openid/login?openid.ns=http://specs.openid.net/auth/2.0&openid.mode=checkid_setup&openid.return_to=https://enzoferroni.github.io/GameSource/&openid.realm=https://enzoferroni.github.io/GameSource/&openid.identity=http://specs.openid.net/auth/2.0/identifier_select&openid.claimed_id=http://specs.openid.net/auth/2.0/identifier_select"
     private let callbackScheme = "https"
     
+    // MARK: - Initialization
+    
+    override init() {
+        super.init()
+        loadStoredCredentials()
+    }
+    
+    // MARK: - Public Methods
+    
     func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         return ASPresentationAnchor()
     }
@@ -45,6 +54,18 @@ class AuthViewModel: NSObject, ObservableObject, ASWebAuthenticationPresentation
     func signOut() {
         steamID = nil
         isAuthenticated = false
+        UserDefaults.standard.removeObject(forKey: "steamId")
+        UserDefaults.standard.removeObject(forKey: "isAuthenticated")
+    }
+    
+    // MARK: - Private Methods
+    
+    private func loadStoredCredentials() {
+        if let storedSteamID = UserDefaults.standard.string(forKey: "steamId"),
+           UserDefaults.standard.bool(forKey: "isAuthenticated") {
+            self.steamID = storedSteamID
+            self.isAuthenticated = true
+        }
     }
     
     private func handleAuthResponse(callbackURL: URL?, error: Error?) {
@@ -55,6 +76,10 @@ class AuthViewModel: NSObject, ObservableObject, ASWebAuthenticationPresentation
         guard let steamID = extractSteamID(from: callbackURL.absoluteString) else {
             return
         }
+        
+        // Store in UserDefaults for persistence
+        UserDefaults.standard.set(steamID, forKey: "steamId")
+        UserDefaults.standard.set(true, forKey: "isAuthenticated")
         
         self.steamID = steamID
         self.isAuthenticated = true

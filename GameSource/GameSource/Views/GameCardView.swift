@@ -2,6 +2,7 @@ import SwiftUI
 
 struct GameCardView: View {
     let game: SteamGame
+    @State private var showingDetail = false
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -38,6 +39,12 @@ struct GameCardView: View {
             }
         }
         .frame(width: 160, height: 240)
+        .onTapGesture {
+            showingDetail = true
+        }
+        .sheet(isPresented: $showingDetail) {
+            GameDetailView(game: game)
+        }
     }
 }
 
