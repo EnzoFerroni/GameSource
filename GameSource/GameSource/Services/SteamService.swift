@@ -43,19 +43,14 @@ class SteamService {
     }
     
     func fetchGameAchievements(steamId: String, appId: Int) async -> [SteamAchievement] {
-        let urlString = "\(baseUrl)/ISteamUserStats/GetPlayerAchievements/v0001/?appid=\(appId)&key=\(apiKey)&steamid=\(steamId)"
+        // First, get user's achievement progress
+        let userAchievements = await fetchUserAchievementProgress(steamId: steamId, appId: appId)
         
-        guard let url = URL(string: urlString) else {
-            return []
-        }
+        // Then, get achievement schema (names, descriptions, and icons)
+        let achievementSchema = await fetchAchievementSchema(appId: appId)
         
-        guard let (data, _) = try? await URLSession.shared.data(from: url),
-              let response = try? JSONDecoder().decode(SteamAchievementsResponse.self, from: data),
-              let achievements = response.playerstats.achievements else {
-            return []
-        }
-        
-        return achievements
+        // Merge the data
+        return mergeAchievementData(userProgress: userAchievements, schema: achievementSchema)
     }
     
     func calculateAchievementStats(achievements: [SteamAchievement]) -> AchievementStats {
@@ -68,5 +63,76 @@ class SteamService {
             unlockedAchievements: unlockedCount,
             completionPercentage: percentage
         )
+    }
+    
+    // MARK: - Private Methods
+    
+    private func fetchUserAchievementProgress(steamId: String, appId: Int) async -> [SteamAchievement] {
+        let urlString = "\(baseUrl)/ISteamUserStats/GetPlayerAchievements/v0001/?appid=\(appId)&key=\(apiKey)&steamid=\(steamId)"
+        
+        guard let url = URL(string: urlString) else {
+            print("Invalid URL for user achievements")
+            return []
+        }
+        
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            let response = try JSONDecoder().decode(SteamAchievementsResponse.self, from: data)
+            return response.playerstats.achievements ?? []
+        } catch {
+            print("Error fetching user achievements: \(error)")
+            return []
+        }
+    }
+    
+    private func fetchAchievementSchema(appId: Int) async -> [String: (name: String, description: String, iconUrl: String?, iconGrayUrl: String?)] {
+        let urlString = "\(baseUrl)/ISteamUserStats/GetSchemaForGame/v2/?key=\(apiKey)&appid=\(appId)"
+        
+        guard let url = URL(string: urlString) else {
+            print("Invalid URL for achievement schema")
+            return [:]
+        }
+        
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            let response = try JSONDecoder().decode(AchievementSchemaResponse.self, from: data)
+            
+            var schema: [String: (name: String, description: String, iconUrl: String?, iconGrayUrl: String?)] = [:]
+            
+            if let availableGameStats = response.game?.availableGameStats {
+                for achievement in availableGameStats.achievements ?? [] {
+                    schema[achievement.name] = (
+                        name: achievement.displayName ?? achievement.name,
+                        description: achievement.description ?? "Hidden achievement",
+                        iconUrl: achievement.icon,
+                        iconGrayUrl: achievement.icongray
+                    )
+                }
+            }
+            
+            return schema
+        } catch {
+            print("Error fetching achievement schema: \(error)")
+            return [:]
+        }
+    }
+    
+    private func mergeAchievementData(
+        userProgress: [SteamAchievement],
+        schema: [String: (name: String, description: String, iconUrl: String?, iconGrayUrl: String?)]
+    ) -> [SteamAchievement] {
+        return userProgress.map { achievement in
+            let schemaData = schema[achievement.apiname]
+            
+            return SteamAchievement(
+                apiname: achievement.apiname,
+                achieved: achievement.achieved,
+                unlocktime: achievement.unlocktime,
+                name: schemaData?.name ?? achievement.apiname.replacingOccurrences(of: "_", with: " ").capitalized,
+                description: schemaData?.description ?? "Achievement details not available",
+                iconUrl: schemaData?.iconUrl,
+                iconGrayUrl: schemaData?.iconGrayUrl
+            )
+        }
     }
 }

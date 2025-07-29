@@ -26,6 +26,8 @@ struct SteamAchievement: Codable, Identifiable {
     let unlocktime: Int
     let name: String?
     let description: String?
+    let iconUrl: String?
+    let iconGrayUrl: String?
     
     var id: String {
         apiname
@@ -39,6 +41,10 @@ struct SteamAchievement: Codable, Identifiable {
         guard unlocktime > 0 else { return nil }
         return Date(timeIntervalSince1970: TimeInterval(unlocktime))
     }
+    
+    var displayIconUrl: String? {
+        return isUnlocked ? iconUrl : iconGrayUrl
+    }
 }
 
 // MARK: - Achievement Stats Summary
@@ -51,4 +57,30 @@ struct AchievementStats {
     var formattedCompletion: String {
         return String(format: "%.1f%%", completionPercentage)
     }
+}
+
+// MARK: - Steam Achievement Schema Response
+
+struct AchievementSchemaResponse: Codable {
+    let game: GameSchema?
+}
+
+struct GameSchema: Codable {
+    let gameName: String?
+    let gameVersion: String?
+    let availableGameStats: AvailableGameStats?
+}
+
+struct AvailableGameStats: Codable {
+    let achievements: [AchievementSchema]?
+}
+
+struct AchievementSchema: Codable {
+    let name: String
+    let defaultvalue: Int?
+    let displayName: String?
+    let hidden: Int?
+    let description: String?
+    let icon: String?
+    let icongray: String?
 }

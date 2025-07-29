@@ -151,12 +151,7 @@ struct GameDetailView: View {
                                                     Text("All Achievements")
                                                         .font(.subheadline)
                                                         .fontWeight(.medium)
-                                                    
-                                                    Spacer()
-                                                    
-                                                    Text("Tap to see details")
-                                                        .font(.caption2)
-                                                        .foregroundColor(.secondary)
+     
                                                 }
                                                 
                                                 LazyVStack(spacing: 8) {
