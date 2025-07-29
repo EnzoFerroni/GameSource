@@ -17,7 +17,8 @@ struct AuthenticatedView: View {
                 
                 FilterBarView(gamesViewModel: gamesViewModel)
                 
-                // MARK: - Notification Test Section
+                // MARK: - Notification Test Section (Commented for Production)
+                /*
                 if !gamesViewModel.games.isEmpty {
                     HStack {
                         Button(action: {
@@ -59,6 +60,7 @@ struct AuthenticatedView: View {
                     .padding(.horizontal, 20)
                     .padding(.bottom, 8)
                 }
+                */
                 
                 if gamesViewModel.isLoading {
                     LoadingStateView()
@@ -69,7 +71,7 @@ struct AuthenticatedView: View {
             .navigationBarHidden(true)
             .onAppear {
                 loadGames()
-                setupNotifications()
+                setupDailyNotifications()
             }
         }
     }
@@ -81,12 +83,19 @@ struct AuthenticatedView: View {
         gamesViewModel.loadGames(for: steamID)
     }
     
-    private func setupNotifications() {
+    private func setupDailyNotifications() {
         Task {
             await notificationService.requestPermission()
+            
+            // Schedule daily notifications at 6 PM
+            if notificationService.isAuthorized && !gamesViewModel.games.isEmpty {
+                notificationService.scheduleDailyGameSuggestions(from: gamesViewModel.games)
+            }
         }
     }
     
+    // Test method
+    /*
     private func testNotification() {
         guard !gamesViewModel.games.isEmpty else {
             print("No games available for notification test")
@@ -95,6 +104,7 @@ struct AuthenticatedView: View {
         
         notificationService.scheduleRandomGameSuggestion(from: gamesViewModel.games)
     }
+    */
 }
 
 #Preview {

@@ -75,6 +75,61 @@ class NotificationService: ObservableObject {
         scheduleGameSuggestionNotification(with: randomGame)
     }
     
+    func scheduleDailyGameSuggestions(from games: [SteamGame]) {
+        guard isAuthorized else {
+            print("Notifications not authorized")
+            return
+        }
+        
+        guard !games.isEmpty else {
+            print("No games available for daily suggestions")
+            return
+        }
+        
+        // Cancel any existing daily notifications
+        cancelDailyNotifications()
+        
+        // Pick a random game for the notification
+        let randomGame = games.randomElement()!
+        
+        let content = UNMutableNotificationContent()
+        content.title = "Time to Game!"
+        content.body = "How about playing \(randomGame.name)? You've played for \(formatPlaytime(minutes: randomGame.playtimeForever))!"
+        content.sound = .default
+        content.badge = 1
+        content.userInfo = [
+            "gameId": randomGame.appid,
+            "gameName": randomGame.name,
+            "type": "daily_game_suggestion"
+        ]
+        
+        // Create date components for 6 PM daily
+        var dateComponents = DateComponents()
+        dateComponents.hour = 18
+        dateComponents.minute = 0
+        
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+        
+        let request = UNNotificationRequest(
+            identifier: "daily_game_suggestion",
+            content: content,
+            trigger: trigger
+        )
+        
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("Error scheduling daily notification: \(error)")
+            } else {
+                print("Daily game suggestions scheduled for 6 PM")
+            }
+        }
+    }
+    
+    func cancelDailyNotifications() {
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["daily_game_suggestion"])
+        print("Daily notifications cancelled")
+    }
+    
     func cancelAllNotifications() {
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()

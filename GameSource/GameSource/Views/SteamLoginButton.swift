@@ -37,16 +37,3 @@ struct SteamLoginButton: View {
         .animation(.easeInOut(duration: 0.2), value: isLoading)
     }
 }
-
-#Preview {
-    VStack(spacing: 20) {
-        SteamLoginButton(isLoading: false) {
-            print("Login tapped")
-        }
-        
-        SteamLoginButton(isLoading: true) {
-            print("Login tapped")
-        }
-    }
-    .padding()
-}

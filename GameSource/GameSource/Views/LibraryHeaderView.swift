@@ -36,9 +36,3 @@ struct LibraryHeaderView: View {
         .padding()
     }
 }
-
-#Preview {
-    LibraryHeaderView(userProfile: nil) {
-        print("Logout tapped")
-    }
-}
