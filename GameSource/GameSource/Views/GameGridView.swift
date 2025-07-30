@@ -2,6 +2,7 @@ import SwiftUI
 
 struct GameGridView: View {
     let games: [SteamGame]
+    let onRefresh: () -> Void
     
     private let columns = Array(repeating: GridItem(.flexible()), count: 2)
     
@@ -13,6 +14,9 @@ struct GameGridView: View {
                 }
             }
             .padding()
+        }
+        .refreshable {
+            onRefresh()
         }
     }
 }

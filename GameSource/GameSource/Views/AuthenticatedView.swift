@@ -19,7 +19,9 @@ struct AuthenticatedView: View {
                 if gamesViewModel.isLoading {
                     LoadingStateView()
                 } else {
-                    GameGridView(games: gamesViewModel.filteredGames)
+                    GameGridView(games: gamesViewModel.filteredGames, onRefresh: {
+                        loadGames()
+                    })
                 }
             }
             .navigationBarHidden(true)
