@@ -6,6 +6,7 @@ struct GameDetailView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     @State private var achievements: [SteamAchievement] = []
     @State private var achievementSchemas: [AchievementSchema] = []
+    @State private var showAchievements: Bool = false
     
     var body: some View {
         NavigationView {
@@ -85,22 +86,98 @@ struct GameDetailView: View {
     }
     
     private var achievementsSection: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text("Achievements")
-                .font(.headline)
+        VStack(alignment: .leading, spacing: 12) {
+            Button(action: {
+                showAchievements.toggle()
+            }) {
+                HStack {
+                    Image(systemName: "trophy.fill")
+                        .foregroundColor(.orange)
+                    
+                    Text("Achievements")
+                        .font(.headline)
+                        .foregroundColor(.primary)
+                    
+                    if !achievements.isEmpty {
+                        Text("(\(unlockedCount)/\(totalCount))")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                    
+                    Spacer()
+                    
+                    Image(systemName: showAchievements ? "chevron.up" : "chevron.down")
+                        .foregroundColor(.secondary)
+                }
+            }
             
-            if achievements.isEmpty {
-                Text("No achievements available")
-                    .foregroundColor(.secondary)
-            } else {
-                LazyVStack {
-                    ForEach(achievements) { achievement in
-                        let schema = achievementSchemas.first { $0.name == achievement.apiname }
-                        AchievementRowView(achievement: achievement, schema: schema)
+            if showAchievements {
+                VStack(spacing: 12) {
+                    if !achievements.isEmpty {
+                        VStack(spacing: 12) {
+                            AchievementStatRow(
+                                icon: "trophy.fill",
+                                title: "Unlocked",
+                                value: "\(unlockedCount)/\(totalCount)"
+                            )
+                            
+                            AchievementStatRow(
+                                icon: "percent",
+                                title: "Completion",
+                                value: String(format: "%.1f%%", completionPercentage)
+                            )
+                            
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("Progress")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                                
+                                ProgressView(value: completionPercentage / 100.0)
+                                    .progressViewStyle(LinearProgressViewStyle(tint: .blue))
+                            }
+                        }
+                        
+                        Divider()
+                            .padding(.vertical, 8)
+                        
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("All Achievements")
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                            
+                            LazyVStack(spacing: 8) {
+                                ForEach(achievements) { achievement in
+                                    let schema = achievementSchemas.first { $0.name == achievement.apiname }
+                                    AchievementRowView(achievement: achievement, schema: schema)
+                                }
+                            }
+                        }
+                    } else {
+                        Text("No achievement data available")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                            .italic()
+                            .padding()
                     }
                 }
             }
         }
+        .padding()
+        .background(Color(.systemGray6))
+        .cornerRadius(12)
+    }
+    
+    private var unlockedCount: Int {
+        achievements.filter { $0.isUnlocked }.count
+    }
+    
+    private var totalCount: Int {
+        achievements.count
+    }
+    
+    private var completionPercentage: Double {
+        guard totalCount > 0 else { return 0.0 }
+        return (Double(unlockedCount) / Double(totalCount)) * 100.0
     }
     
     private func loadAchievements() async {
@@ -112,6 +189,28 @@ struct GameDetailView: View {
         
         achievements = await userAchievements
         achievementSchemas = await gameSchema
+    }
+}
+
+struct AchievementStatRow: View {
+    let icon: String
+    let title: String
+    let value: String
+    
+    var body: some View {
+        HStack {
+            Image(systemName: icon)
+                .foregroundColor(.orange)
+                .frame(width: 20)
+            
+            Text(title)
+                .fontWeight(.medium)
+            
+            Spacer()
+            
+            Text(value)
+                .foregroundColor(.secondary)
+        }
     }
 }
 
