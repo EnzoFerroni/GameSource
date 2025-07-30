@@ -2,7 +2,9 @@ import SwiftUI
 
 struct LibraryHeaderView: View {
     let userProfile: SteamUserProfile?
-    let onLogout: () -> Void
+    let onProfileTap: () -> Void
+    let onRandomGame: () -> Void
+    let onNotifications: () -> Void
     
     var body: some View {
         HStack {
@@ -13,24 +15,32 @@ struct LibraryHeaderView: View {
             Spacer()
             
             HStack(spacing: 12) {
-                if let userProfile = userProfile {
-                    AsyncImage(url: URL(string: userProfile.avatar)) { image in
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                        
-                    } placeholder: {
-                        Circle()
-                            .fill(Color.gray.opacity(0.3))
-                    }
-                    .frame(width: 40, height: 40)
-                    .clipShape(Circle())
+                Button(action: onRandomGame) {
+                    Image(systemName: "dice")
+                        .font(.title2)
+                        .foregroundColor(.blue)
                 }
                 
-                Button("Logout") {
-                    onLogout()
+                Button(action: onNotifications) {
+                    Image(systemName: "bell")
+                        .font(.title2)
+                        .foregroundColor(.orange)
                 }
-                .foregroundColor(.blue)
+                
+                if let userProfile = userProfile {
+                    Button(action: onProfileTap) {
+                        AsyncImage(url: URL(string: userProfile.avatar)) { image in
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                        } placeholder: {
+                            Circle()
+                                .fill(Color.gray.opacity(0.3))
+                        }
+                        .frame(width: 40, height: 40)
+                        .clipShape(Circle())
+                    }
+                }
             }
         }
         .padding()

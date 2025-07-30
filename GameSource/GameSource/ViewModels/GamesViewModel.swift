@@ -16,6 +16,10 @@ class GamesViewModel: ObservableObject {
         didSet { applyFilters() }
     }
     
+    var allGames: [SteamGame] {
+        return games
+    }
+    
     private let steamService = SteamService()
     
     func loadGames(for steamId: String) {
