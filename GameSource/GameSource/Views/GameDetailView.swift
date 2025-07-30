@@ -3,6 +3,9 @@ import SwiftUI
 struct GameDetailView: View {
     let game: SteamGame
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var authViewModel: AuthViewModel
+    @State private var achievements: [SteamAchievement] = []
+    @State private var achievementSchemas: [AchievementSchema] = []
     
     var body: some View {
         NavigationView {
@@ -51,6 +54,8 @@ struct GameDetailView: View {
                         .padding()
                         .background(Color(.systemGray6))
                         .cornerRadius(12)
+                        
+                        achievementsSection
                     }
                 }
                 .padding(.horizontal, 20)
@@ -65,6 +70,9 @@ struct GameDetailView: View {
                 }
             }
         }
+        .task {
+            await loadAchievements()
+        }
     }
         
     private var headerImageURL: String {
@@ -74,6 +82,36 @@ struct GameDetailView: View {
     private func formatPlaytime(minutes: Int) -> String {
         let hours = minutes / 60
         return hours > 0 ? "\(hours) hours" : "Not played"
+    }
+    
+    private var achievementsSection: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("Achievements")
+                .font(.headline)
+            
+            if achievements.isEmpty {
+                Text("No achievements available")
+                    .foregroundColor(.secondary)
+            } else {
+                LazyVStack {
+                    ForEach(achievements) { achievement in
+                        let schema = achievementSchemas.first { $0.name == achievement.apiname }
+                        AchievementRowView(achievement: achievement, schema: schema)
+                    }
+                }
+            }
+        }
+    }
+    
+    private func loadAchievements() async {
+        guard let steamId = authViewModel.steamID else { return }
+        let steamService = SteamService()
+        
+        async let userAchievements = steamService.fetchUserAchievements(steamId: steamId, appId: game.appid)
+        async let gameSchema = steamService.fetchAchievementSchema(appId: game.appid)
+        
+        achievements = await userAchievements
+        achievementSchemas = await gameSchema
     }
 }
 
