@@ -12,11 +12,9 @@ struct GameCardView: View {
                 .clipped()
                 .cornerRadius(8)
             
-            // Gradient overlay for text readability
             LinearGradient(
                 gradient: Gradient(colors: [
                     Color.black.opacity(0.0),
-                    Color.black.opacity(0.4),
                     Color.black.opacity(0.8)
                 ]),
                 startPoint: .center,
@@ -24,7 +22,6 @@ struct GameCardView: View {
             )
             .cornerRadius(8)
             
-            // Game name overlay
             VStack {
                 Spacer()
                 
@@ -35,7 +32,6 @@ struct GameCardView: View {
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 8)
                     .padding(.bottom, 12)
-                    .shadow(color: .black.opacity(0.6), radius: 2, x: 0, y: 1)
             }
         }
         .frame(width: 160, height: 240)
@@ -49,16 +45,10 @@ struct GameCardView: View {
 }
 
 #Preview {
-    GameCardView(
-        game: SteamGame(
-            appid: 440,
-            name: "Sample Game",
-            playtimeForever: 60,
-            playtime2Weeks: nil,
-            imgIconUrl: "",
-            imgLogoUrl: nil,
-            hasCommunityVisibleStats: nil,
-            rtimeLastPlayed: nil
-        )
-    )
+    GameCardView(game: SteamGame(
+        appid: 440,
+        name: "Sample Game",
+        playtimeForever: 60,
+        imgIconUrl: ""
+    ))
 }

@@ -11,8 +11,5 @@ struct SteamUserProfileData: Codable {
 struct SteamUserProfile: Codable {
     let steamid: String
     let personaname: String
-    let profileurl: String
     let avatar: String
-    let avatarmedium: String
-    let avatarfull: String
 }

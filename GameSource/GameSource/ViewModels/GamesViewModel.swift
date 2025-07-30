@@ -2,30 +2,21 @@ import Foundation
 
 @MainActor
 class GamesViewModel: ObservableObject {
-    // MARK: - Published Properties
-    
     @Published var games: [SteamGame] = []
     @Published var filteredGames: [SteamGame] = []
     @Published var userProfile: SteamUserProfile?
     @Published var isLoading = false
-    
     @Published var selectedSort: SortOption = .playtime {
         didSet { applyFilters() }
     }
-    
     @Published var selectedFilter: FilterOption = .all {
         didSet { applyFilters() }
     }
-    
     @Published var searchText = "" {
         didSet { applyFilters() }
     }
     
-    // MARK: - Private Properties
-    
     private let steamService = SteamService()
-    
-    // MARK: - Public Methods
     
     func loadGames(for steamId: String) {
         isLoading = true
@@ -41,17 +32,13 @@ class GamesViewModel: ObservableObject {
         }
     }
     
-    // MARK: - Private Methods
-    
     private func applyFilters() {
         var filtered = games
         
-        // Search
         if !searchText.isEmpty {
             filtered = filtered.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
         }
         
-        // Filter
         switch selectedFilter {
         case .played:
             filtered = filtered.filter { $0.playtimeForever > 0 }
@@ -61,7 +48,6 @@ class GamesViewModel: ObservableObject {
             break
         }
         
-        // Sort
         switch selectedSort {
         case .name:
             filtered = filtered.sorted { $0.name < $1.name }

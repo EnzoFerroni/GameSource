@@ -7,7 +7,6 @@ struct FilterBarView: View {
     var body: some View {
         VStack(spacing: 12) {
             HStack {
-                // Search bar
                 HStack {
                     Image(systemName: "magnifyingglass")
                         .foregroundColor(.gray)
@@ -27,11 +26,8 @@ struct FilterBarView: View {
                 .background(Color.gray.opacity(0.1))
                 .cornerRadius(8)
                 
-                // Filter button
                 Button(action: {
-                    withAnimation {
-                        showFilters.toggle()
-                    }
+                    showFilters.toggle()
                 }) {
                     Image(systemName: "line.3.horizontal.decrease.circle")
                         .font(.title2)
@@ -40,7 +36,6 @@ struct FilterBarView: View {
             }
             .padding(.horizontal)
             
-            // Expanded filter options
             if showFilters {
                 VStack(spacing: 8) {
                     HStack {
@@ -52,7 +47,7 @@ struct FilterBarView: View {
                         
                         Picker("Sort", selection: $gamesViewModel.selectedSort) {
                             ForEach(SortOption.allCases, id: \.self) { option in
-                                Text(option.displayName).tag(option)
+                                Text(option.rawValue).tag(option)
                             }
                         }
                         .pickerStyle(SegmentedPickerStyle())
@@ -67,7 +62,7 @@ struct FilterBarView: View {
                         
                         Picker("Filter", selection: $gamesViewModel.selectedFilter) {
                             ForEach(FilterOption.allCases, id: \.self) { option in
-                                Text(option.displayName).tag(option)
+                                Text(option.rawValue).tag(option)
                             }
                         }
                         .pickerStyle(SegmentedPickerStyle())
@@ -77,7 +72,6 @@ struct FilterBarView: View {
                 .background(Color.gray.opacity(0.05))
                 .cornerRadius(8)
                 .padding(.horizontal)
-                .transition(.opacity.combined(with: .move(edge: .top)))
             }
         }
     }

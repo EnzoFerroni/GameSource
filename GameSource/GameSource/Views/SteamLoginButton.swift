@@ -23,17 +23,9 @@ struct SteamLoginButton: View {
             .foregroundColor(.white)
             .frame(maxWidth: .infinity)
             .padding(.vertical, 16)
-            .background(
-                LinearGradient(
-                    gradient: Gradient(colors: [Color.blue, Color.blue.opacity(0.8)]),
-                    startPoint: .leading,
-                    endPoint: .trailing
-                )
-            )
+            .background(Color.blue)
             .cornerRadius(12)
-            .shadow(color: .blue.opacity(0.3), radius: 8, x: 0, y: 4)
         }
         .disabled(isLoading)
-        .animation(.easeInOut(duration: 0.2), value: isLoading)
     }
 }

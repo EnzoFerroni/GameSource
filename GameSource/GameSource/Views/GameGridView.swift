@@ -16,16 +16,3 @@ struct GameGridView: View {
         }
     }
 }
-
-#Preview {
-    GameGridView(games: [SteamGame(
-        appid: 440,
-        name: "TF2",
-        playtimeForever: 60,
-        playtime2Weeks: nil,
-        imgIconUrl: "",
-        imgLogoUrl: nil,
-        hasCommunityVisibleStats: nil,
-        rtimeLastPlayed: nil
-    )])
-}

@@ -14,7 +14,7 @@ struct LibraryHeaderView: View {
             
             HStack(spacing: 12) {
                 if let userProfile = userProfile {
-                    AsyncImage(url: URL(string: userProfile.avatarmedium)) { image in
+                    AsyncImage(url: URL(string: userProfile.avatar)) { image in
                         image
                             .resizable()
                             .aspectRatio(contentMode: .fill)

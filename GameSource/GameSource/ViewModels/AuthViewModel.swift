@@ -1,10 +1,3 @@
-//
-//  AuthViewModel.swift
-//  GameSource
-//
-//  Created by Enzo Ferroni on 24/07/25.
-//
-
 import Foundation
 import AuthenticationServices
 
@@ -17,18 +10,14 @@ class AuthViewModel: NSObject, ObservableObject, ASWebAuthenticationPresentation
     private var authSession: ASWebAuthenticationSession?
     private let steamAuthURL = "https://steamcommunity.com/openid/login?openid.ns=http://specs.openid.net/auth/2.0&openid.mode=checkid_setup&openid.return_to=https://enzoferroni.github.io/GameSource/&openid.realm=https://enzoferroni.github.io/GameSource/&openid.identity=http://specs.openid.net/auth/2.0/identifier_select&openid.claimed_id=http://specs.openid.net/auth/2.0/identifier_select"
     private let callbackScheme = "https"
-    
-    // MARK: - Initialization
-    
+        
     override init() {
         super.init()
         loadStoredCredentials()
     }
-    
-    // MARK: - Public Methods
-    
+        
     func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
-        return ASPresentationAnchor()
+        ASPresentationAnchor()
     }
     
     func signInWithSteam() {
@@ -43,7 +32,7 @@ class AuthViewModel: NSObject, ObservableObject, ASWebAuthenticationPresentation
             Task { @MainActor in
                 guard let self = self else { return }
                 self.isLoading = false
-                self.handleAuthResponse(callbackURL: callbackURL, error: error)
+                self.handleAuthResponse(callbackURL: callbackURL)
             }
         }
         
@@ -57,27 +46,19 @@ class AuthViewModel: NSObject, ObservableObject, ASWebAuthenticationPresentation
         UserDefaults.standard.removeObject(forKey: "steamId")
         UserDefaults.standard.removeObject(forKey: "isAuthenticated")
     }
-    
-    // MARK: - Private Methods
-    
+        
     private func loadStoredCredentials() {
-        if let storedSteamID = UserDefaults.standard.string(forKey: "steamId"),
-           UserDefaults.standard.bool(forKey: "isAuthenticated") {
-            self.steamID = storedSteamID
-            self.isAuthenticated = true
-        }
+        guard let storedSteamID = UserDefaults.standard.string(forKey: "steamId"),
+              UserDefaults.standard.bool(forKey: "isAuthenticated") else { return }
+        
+        steamID = storedSteamID
+        isAuthenticated = true
     }
     
-    private func handleAuthResponse(callbackURL: URL?, error: Error?) {
-        guard let callbackURL = callbackURL else {
-            return
-        }
+    private func handleAuthResponse(callbackURL: URL?) {
+        guard let callbackURL = callbackURL,
+              let steamID = extractSteamID(from: callbackURL.absoluteString) else { return }
         
-        guard let steamID = extractSteamID(from: callbackURL.absoluteString) else {
-            return
-        }
-        
-        // Store in UserDefaults for persistence
         UserDefaults.standard.set(steamID, forKey: "steamId")
         UserDefaults.standard.set(true, forKey: "isAuthenticated")
         
@@ -87,18 +68,15 @@ class AuthViewModel: NSObject, ObservableObject, ASWebAuthenticationPresentation
     
     private func extractSteamID(from url: String) -> String? {
         guard let components = URLComponents(string: url),
-              let queryItems = components.queryItems else {
-            return nil
-        }
+              let queryItems = components.queryItems else { return nil }
         
         let possibleKeys = ["openid.claimed_id", "openid.identity"]
         
         for key in possibleKeys {
-            if let value = queryItems.first(where: { $0.name == key })?.value {
-                if let steamID = value.components(separatedBy: "/").last, !steamID.isEmpty {
-                    return steamID
-                }
-            }
+            guard let value = queryItems.first(where: { $0.name == key })?.value,
+                  let steamID = value.components(separatedBy: "/").last,
+                  !steamID.isEmpty else { continue }
+            return steamID
         }
         
         return nil
