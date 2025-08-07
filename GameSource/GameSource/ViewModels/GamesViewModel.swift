@@ -20,6 +20,10 @@ class GamesViewModel: ObservableObject {
         return games
     }
     
+    var hasNoGames: Bool {
+        return !isLoading && games.isEmpty
+    }
+    
     private let steamService = SteamService()
     
     func loadGames(for steamId: String) {

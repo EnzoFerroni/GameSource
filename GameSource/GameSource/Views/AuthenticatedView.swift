@@ -24,10 +24,15 @@ struct AuthenticatedView: View {
                     }
                 )
                 
+                
                 FilterBarView(gamesViewModel: gamesViewModel)
                 
                 if gamesViewModel.isLoading {
                     LoadingStateView()
+                } else if gamesViewModel.hasNoGames {
+                    EmptyStateView(onRefresh: {
+                        loadGames()
+                    })
                 } else {
                     GameGridView(games: gamesViewModel.filteredGames, onRefresh: {
                         loadGames()
