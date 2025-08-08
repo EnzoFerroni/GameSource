@@ -67,23 +67,26 @@ struct EmptyStateView: View {
                 .background(Color(.systemGray6))
                 .cornerRadius(12)
                 
-                // Refresh Button
-                Button(action: onRefresh) {
-                    HStack {
-                        Image(systemName: "arrow.clockwise")
-                        Text("Try Again")
-                    }
-                    .font(.body)
-                    .foregroundColor(.blue)
-                    .padding(.horizontal, 24)
-                    .padding(.vertical, 12)
-                    .cornerRadius(8)
-                }
-                .padding(.top, 8)
+                //                // Refresh Button
+                //                Button(action: onRefresh) {
+                //                    HStack {
+                //                        Image(systemName: "arrow.clockwise")
+                //                        Text("Try Again")
+                //                    }
+                //                    .font(.body)
+                //                    .foregroundColor(.blue)
+                //                    .padding(.horizontal, 24)
+                //                    .padding(.vertical, 12)
+                //                    .cornerRadius(8)
+                //                }
+                //                .padding(.top, 8)
             }
             .padding()
         }
         .background(Color(.systemGroupedBackground))
+        .refreshable {
+            onRefresh()
+        }
     }
     
     private func instructionStep(number: String, text: String) -> some View {
