@@ -36,6 +36,26 @@ struct GameLibraryView: View {
                     prompt: "Search games"
                 )
                 .toolbar {
+                    // Sort and filter options as a native menu, instead
+                    // of the custom filter bar the original app had.
+                    ToolbarItem(placement: .topBarLeading) {
+                        Menu {
+                            Picker("Sort by", selection: $viewModel.selectedSort) {
+                                ForEach(SortOption.allCases, id: \.self) { option in
+                                    Text(option.rawValue)
+                                }
+                            }
+
+                            Picker("Show", selection: $viewModel.selectedFilter) {
+                                ForEach(FilterOption.allCases, id: \.self) { option in
+                                    Text(option.rawValue)
+                                }
+                            }
+                        } label: {
+                            Image(systemName: "line.3.horizontal.decrease.circle")
+                        }
+                    }
+
                     // Picks a random game and opens its detail sheet.
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
