@@ -23,7 +23,8 @@ final class AuthViewModel: NSObject, ObservableObject {
     @Published private(set) var errorMessage: String?
 
     // Where Steam sends the user back after login.
-    private let callbackPage = "https://enzoferroni.github.io/GameSource/"
+    // The page lives in this repository, at docs/index.html.
+    private let callbackPage = "https://enzoferroni.github.io/GameSource-Case/"
 
     // Kept alive while the login web page is on screen.
     private var session: ASWebAuthenticationSession?
