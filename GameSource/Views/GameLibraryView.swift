@@ -38,8 +38,7 @@ struct GameLibraryView: View {
                     prompt: "Search games"
                 )
                 .toolbar {
-                    // Sort and filter options as a native menu, instead
-                    // of the custom filter bar the original app had.
+                    // Sort and filter options as a native menu.
                     ToolbarItem(placement: .topBarLeading) {
                         Menu {
                             Picker("Sort by", selection: $viewModel.selectedSort) {
@@ -80,8 +79,7 @@ struct GameLibraryView: View {
                         .accessibilityLabel("Notifications")
                     }
 
-                    // The user's avatar. Tapping it asks to logout,
-                    // same gesture as the original app.
+                    // The user's avatar. Tapping it asks to logout.
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
                             showingLogoutAlert = true
@@ -166,15 +164,34 @@ struct GameLibraryView: View {
     }
 
     private var emptyState: some View {
-        ContentUnavailableView(
-            "No games found",
-            systemImage: "gamecontroller",
-            description: Text(
-                viewModel.searchText.isEmpty
-                    ? "Your Steam library is empty or your profile is private."
-                    : "No results for \"\(viewModel.searchText)\"."
-            )
-        )
+        ScrollView {
+            if viewModel.searchText.isEmpty {
+                ContentUnavailableView {
+                    Label("No games found", systemImage: "gamecontroller")
+                } description: {
+                    Text("""
+                        Your library may be empty or your Steam profile may be set to private. \
+                        Your network may also be blocking the Steam API.
+
+                        To make your profile public:
+                        1. Open Steam and go to your Profile
+                        2. Tap Edit Profile → Privacy Settings
+                        3. Set "Game details" to Public
+                        4. Save and reload below
+                        """)
+                } actions: {
+                    Button("Reload") {
+                        Task { await viewModel.loadGames(steamID: steamID) }
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
+            } else {
+                ContentUnavailableView.search(text: viewModel.searchText)
+            }
+        }
+        .refreshable {
+            await viewModel.loadGames(steamID: steamID)
+        }
     }
 
     private func errorState(message: String) -> some View {

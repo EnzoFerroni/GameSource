@@ -25,7 +25,7 @@ struct SteamAchievement: Decodable {
     let apiname: String
     let achieved: Int
 
-    // Seconds since 1970. Zero means still locked.
+    // Zero means still locked.
     let unlocktime: Int
 
     let name: String
