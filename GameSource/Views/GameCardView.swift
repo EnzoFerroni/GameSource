@@ -20,6 +20,9 @@ struct GameCardView: View {
                 name
             }
             .clipShape(RoundedRectangle(cornerRadius: 8))
+            // VoiceOver reads the whole card as one item: the game name.
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(game.name)
     }
 
     // AsyncImage downloads the cover on its own. The placeholder keeps
@@ -43,7 +46,9 @@ struct GameCardView: View {
 
     private var name: some View {
         Text(game.name)
-            .font(.system(size: 14, weight: .semibold))
+            // A text style instead of a fixed size, so the name grows
+            // with the text size chosen in Settings (Dynamic Type).
+            .font(.subheadline.weight(.semibold))
             .foregroundStyle(.white)
             .lineLimit(2)
             .multilineTextAlignment(.center)
