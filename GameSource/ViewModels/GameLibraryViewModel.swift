@@ -47,12 +47,13 @@ final class GameLibraryViewModel: ObservableObject {
     }
 
     // Loads the user's library. Used on launch, pull to refresh and retry.
-    func loadGames() async {
+    // The SteamID comes from the view because the login screen owns it.
+    func loadGames(steamID: String) async {
         isLoading = true
         errorMessage = nil
 
         do {
-            games = try await service.fetchOwnedGames()
+            games = try await service.fetchOwnedGames(steamID: steamID)
         }
         catch {
             errorMessage = "Could not load your games. Check your connection."

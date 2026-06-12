@@ -11,7 +11,6 @@ import Foundation
 // To run the project, fill Secrets.xcconfig with your own values.
 enum Secrets {
     static let steamAPIKey: String = value(for: "SteamAPIKey")
-    static let steamID: String = value(for: "SteamID")
 
     private static func value(for key: String) -> String {
         guard let value = Bundle.main.infoDictionary?[key] as? String,

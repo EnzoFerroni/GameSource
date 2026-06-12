@@ -16,18 +16,17 @@ enum SteamServiceError: Error {
 // What the view model needs from a game service.
 // Lets tests replace the real service with a fake one.
 protocol GameFetching {
-    func fetchOwnedGames() async throws -> [SteamGame]
+    func fetchOwnedGames(steamID: String) async throws -> [SteamGame]
 }
 
 // Handles all communication with the Steam Web API.
 struct SteamService: GameFetching {
 
     private let apiKey = Secrets.steamAPIKey
-    private let steamID = Secrets.steamID
     private let baseURL = "https://api.steampowered.com"
 
     // Fetches every game the user owns, most played first.
-    func fetchOwnedGames() async throws -> [SteamGame] {
+    func fetchOwnedGames(steamID: String) async throws -> [SteamGame] {
         let path = "/IPlayerService/GetOwnedGames/v0001/"
 
         guard var components = URLComponents(string: baseURL + path) else {
