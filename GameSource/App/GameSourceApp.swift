@@ -14,7 +14,7 @@ struct GameSourceApp: App {
 
     // Persisted SteamID; empty means no one is "logged in".
     // Changing it makes SwiftUI swap the root view automatically.
-    @AppStorage("steamID") private var steamID = ""
+    @AppStorage(StorageKey.steamID) private var steamID = ""
 
     var body: some Scene {
         WindowGroup {
