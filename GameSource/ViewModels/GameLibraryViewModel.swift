@@ -26,6 +26,9 @@ final class GameLibraryViewModel: ObservableObject {
     // The games loaded from the API. Only this class can change the list.
     @Published private(set) var games: [SteamGame] = []
 
+    // The logged user's profile, shown in the toolbar.
+    @Published private(set) var userProfile: SteamUserProfile?
+
     // Drives the loading spinner in the view.
     @Published private(set) var isLoading = false
 
@@ -78,7 +81,13 @@ final class GameLibraryViewModel: ObservableObject {
         errorMessage = nil
 
         do {
-            games = try await service.fetchOwnedGames(steamID: steamID)
+            // async let runs both requests in parallel; the await
+            // below only waits for whichever finishes last.
+            async let fetchedGames = service.fetchOwnedGames(steamID: steamID)
+            async let fetchedProfile = service.fetchUserProfile(steamID: steamID)
+
+            games = try await fetchedGames
+            userProfile = try await fetchedProfile
         }
         catch {
             errorMessage = "Could not load your games. Check your connection."

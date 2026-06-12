@@ -18,6 +18,7 @@ enum SteamServiceError: Error {
 protocol GameFetching {
     func fetchOwnedGames(steamID: String) async throws -> [SteamGame]
     func fetchAchievements(steamID: String, appId: Int) async throws -> [SteamAchievement]
+    func fetchUserProfile(steamID: String) async throws -> SteamUserProfile?
 }
 
 // Handles all communication with the Steam Web API.
@@ -107,5 +108,36 @@ struct SteamService: GameFetching {
         )
 
         return decoded.playerstats.achievements ?? []
+    }
+
+    // Fetches the logged user's public profile (name and avatar).
+    func fetchUserProfile(steamID: String) async throws -> SteamUserProfile? {
+        let path = "/ISteamUser/GetPlayerSummaries/v0002/"
+
+        guard var components = URLComponents(string: baseURL + path) else {
+            throw SteamServiceError.invalidURL
+        }
+
+        components.queryItems = [
+            URLQueryItem(name: "key", value: apiKey),
+            URLQueryItem(name: "steamids", value: steamID)
+        ]
+
+        guard let url = components.url else {
+            throw SteamServiceError.invalidURL
+        }
+
+        let (data, response) = try await URLSession.shared.data(from: url)
+
+        guard let httpResponse = response as? HTTPURLResponse,
+              httpResponse.statusCode == 200 else {
+            throw SteamServiceError.requestFailed
+        }
+
+        let decoded = try JSONDecoder().decode(
+            SteamUserProfileResponse.self, from: data
+        )
+
+        return decoded.response.players.first
     }
 }
