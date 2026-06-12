@@ -7,9 +7,10 @@ This is a simplified version of [GameSource](https://github.com/EnzoFerroni/Game
 ## Features
 
 - Login with your SteamID, persisted across launches
-- Browse your Steam library, sorted by most played
+- Browse your Steam library as a cover grid, sorted by most played
 - Search games by name
-- Game detail screen with playtime and a link to the Steam Store
+- Game detail sheet with playtime, achievements and a Steam Store link
+- Random game picker
 - Loading, error and empty states with pull to refresh and retry
 
 ## Architecture (MVVM)
@@ -17,10 +18,10 @@ This is a simplified version of [GameSource](https://github.com/EnzoFerroni/Game
 ```
 GameSource/
 ├── App/            Entry point (GameSourceApp)
-├── Models/         Codable structs mirroring the Steam API (SteamGame)
+├── Models/         Codable structs mirroring the Steam API
 ├── Services/       API layer (SteamService) behind a protocol (GameFetching)
-├── ViewModels/     Screen state and logic (GameLibraryViewModel)
-└── Views/          SwiftUI views (Library, Row, Detail)
+├── ViewModels/     One per screen (GameLibrary, GameDetail)
+└── Views/          SwiftUI views (Login, Library, Card, Detail)
 ```
 
 - **View** reads `@Published` state from the view model and forwards user actions.
