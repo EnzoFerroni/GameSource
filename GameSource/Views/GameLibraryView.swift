@@ -22,6 +22,8 @@ struct GameLibraryView: View {
 
     @State private var showingLogoutAlert = false
 
+    @State private var showingNotificationSettings = false
+
     private let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
@@ -66,6 +68,14 @@ struct GameLibraryView: View {
                         .disabled(viewModel.games.isEmpty)
                     }
 
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            showingNotificationSettings = true
+                        } label: {
+                            Image(systemName: "bell")
+                        }
+                    }
+
                     // The user's avatar; tapping it asks to logout,
                     // same gesture as the original app.
                     ToolbarItem(placement: .topBarTrailing) {
@@ -89,6 +99,9 @@ struct GameLibraryView: View {
         }
         .sheet(item: $selectedGame) { game in
             GameDetailView(game: game)
+        }
+        .sheet(isPresented: $showingNotificationSettings) {
+            NotificationSettingsView(games: viewModel.games)
         }
         // .task runs when the view appears and is cancelled if it disappears.
         .task {
