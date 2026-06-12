@@ -43,8 +43,8 @@ final class GameLibraryViewModel: ObservableObject {
     }
 
     // The games shown on screen: search, filter and sort applied on
-    // top of the loaded list. Computed on demand so there is a single
-    // source of truth, instead of keeping a second published array.
+    // top of the loaded list. Recomputed on every change, so there is
+    // no second list to keep in sync with the original.
     var filteredGames: [SteamGame] {
         var result = games
 
@@ -81,8 +81,8 @@ final class GameLibraryViewModel: ObservableObject {
         errorMessage = nil
 
         do {
-            // async let runs both requests in parallel; the await
-            // below only waits for whichever finishes last.
+            // async let starts both requests at the same time.
+            // The awaits below only wait for the slower one.
             async let fetchedGames = service.fetchOwnedGames(steamID: steamID)
             async let fetchedProfile = service.fetchUserProfile(steamID: steamID)
 

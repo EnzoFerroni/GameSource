@@ -63,8 +63,8 @@ final class GameDetailViewModel: ObservableObject {
         _ progress: [SteamAchievement],
         with schemas: [AchievementSchema]
     ) -> [GameAchievement] {
-        // Dictionary lookup instead of searching the schema list
-        // once per achievement.
+        // A dictionary makes finding each icon instant, instead of
+        // searching the whole list once per achievement.
         let schemaByName = Dictionary(
             schemas.map { ($0.name, $0) },
             uniquingKeysWith: { first, _ in first }
@@ -89,7 +89,7 @@ final class GameDetailViewModel: ObservableObject {
             )
         }
         .sorted { lhs, rhs in
-            // Most recent unlocks first; locked ones keep Steam's order.
+            // Most recent unlocks first. Locked ones keep Steam's order.
             switch (lhs.unlockDate, rhs.unlockDate) {
             case let (left?, right?):
                 return left > right

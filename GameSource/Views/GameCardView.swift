@@ -22,7 +22,7 @@ struct GameCardView: View {
             .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 
-    // AsyncImage downloads the cover lazily; the placeholder keeps
+    // AsyncImage downloads the cover on its own. The placeholder keeps
     // the card size stable while the image loads or if it fails.
     private var cover: some View {
         AsyncImage(url: game.coverURL) { image in

@@ -7,7 +7,7 @@
 
 import Foundation
 
-// Mirrors the JSON returned by Steam's GetOwnedGames endpoint:
+// Matches the JSON that Steam's GetOwnedGames endpoint returns:
 // { "response": { "games": [...] } }
 struct SteamGamesResponse: Decodable {
     let response: GameList
@@ -39,7 +39,7 @@ struct SteamGame: Decodable, Identifiable, Hashable {
         URL(string: "https://shared.steamstatic.com/store_item_assets/steam/apps/\(appid)/header.jpg")
     }
 
-    // Steam returns playtime in minutes; show hours when it reads better.
+    // Steam sends playtime in minutes. Show hours when it reads better.
     var formattedPlaytime: String {
         guard playtimeForever >= 60 else {
             return "\(playtimeForever) min"

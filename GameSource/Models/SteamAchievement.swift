@@ -9,7 +9,7 @@ import Foundation
 
 // MARK: - GetPlayerAchievements response
 
-// Mirrors the JSON returned by Steam's GetPlayerAchievements endpoint:
+// Matches the JSON that Steam's GetPlayerAchievements endpoint returns:
 // { "playerstats": { "achievements": [...] } }
 struct SteamAchievementsResponse: Decodable {
     let playerstats: PlayerStats
@@ -25,7 +25,7 @@ struct SteamAchievement: Decodable {
     let apiname: String
     let achieved: Int
 
-    // Unix timestamp; 0 when still locked.
+    // Seconds since 1970. Zero means still locked.
     let unlocktime: Int
 
     let name: String
@@ -36,8 +36,9 @@ struct SteamAchievement: Decodable {
 
 // MARK: - GetSchemaForGame response
 
-// Mirrors the JSON returned by Steam's GetSchemaForGame endpoint.
-// Only the icons are used; names already come localized above.
+// Matches the JSON that Steam's GetSchemaForGame endpoint returns.
+// Only the icons are used here. The names already arrive in the
+// player response above.
 struct AchievementSchemaResponse: Decodable {
     let game: GameSchema?
 }
@@ -60,8 +61,8 @@ struct AchievementSchema: Decodable {
 
 // MARK: - Display model
 
-// What the detail screen actually shows: the player's progress
-// merged with the schema icon for one achievement.
+// What the detail screen shows: one achievement with the player's
+// progress and its icon joined together.
 struct GameAchievement: Identifiable {
     let id: String
     let name: String

@@ -114,8 +114,8 @@ struct GameDetailView: View {
                     .foregroundStyle(.secondary)
             }
             else {
-                // The header with the progress summary stays visible;
-                // expanding reveals the full list.
+                // The header with the progress summary is always
+                // visible. Expanding it shows the full list.
                 DisclosureGroup(isExpanded: $showingAchievements) {
                     // Lazy because some games have hundreds of them.
                     LazyVStack(alignment: .leading, spacing: 16) {

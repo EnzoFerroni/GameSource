@@ -61,7 +61,8 @@ struct SteamService: GameFetching {
 
         let decoded = try decoder.decode(SteamGamesResponse.self, from: data)
 
-        // games is nil when the profile is private; treat it as empty.
+        // Steam sends no games list when the profile is private.
+        // Treat that as an empty library.
         let games = decoded.response.games ?? []
 
         return games.sorted { $0.playtimeForever > $1.playtimeForever }
@@ -94,8 +95,8 @@ struct SteamService: GameFetching {
             throw SteamServiceError.requestFailed
         }
 
-        // Steam answers 400 when the game simply has no achievements;
-        // that is not an error for us, just an empty list.
+        // Steam answers 400 when the game has no achievements.
+        // For us that is not an error, just an empty list.
         guard httpResponse.statusCode != 400 else {
             return []
         }
