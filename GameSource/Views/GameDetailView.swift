@@ -77,6 +77,8 @@ struct GameDetailView: View {
             .aspectRatio(460 / 215, contentMode: .fit)
         }
         .clipShape(RoundedRectangle(cornerRadius: 12))
+        // Decorative image. The title below already names the game.
+        .accessibilityHidden(true)
     }
 
     private var stats: some View {
@@ -201,6 +203,8 @@ struct GameDetailView: View {
                     achievement.isUnlocked ? Color.green : Color.secondary
                 )
         }
+        // VoiceOver reads the whole row as one item.
+        .accessibilityElement(children: .combine)
     }
 
     // The icon Steam provides: colored when unlocked, gray otherwise.
@@ -220,6 +224,8 @@ struct GameDetailView: View {
         }
         .frame(width: 48, height: 48)
         .clipShape(RoundedRectangle(cornerRadius: 8))
+        // Decorative image. The row text already describes everything.
+        .accessibilityHidden(true)
     }
 
     private func statRow(icon: String, title: String, value: String) -> some View {
@@ -236,6 +242,8 @@ struct GameDetailView: View {
             Text(value)
                 .fontWeight(.medium)
         }
+        // VoiceOver reads title and value together, like "Total Playtime, 125 h".
+        .accessibilityElement(children: .combine)
     }
 
     private var storeURL: URL? {

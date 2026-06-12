@@ -47,6 +47,8 @@ struct LoginView: View {
             Image(systemName: "gamecontroller.fill")
                 .font(.system(size: 80))
                 .foregroundStyle(.blue)
+                // Decorative image. The app name below says it all.
+                .accessibilityHidden(true)
 
             VStack(spacing: 8) {
                 Text("GameSource")

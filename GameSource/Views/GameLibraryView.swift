@@ -56,6 +56,8 @@ struct GameLibraryView: View {
                         } label: {
                             Image(systemName: "line.3.horizontal.decrease.circle")
                         }
+                        // Icon-only buttons need a spoken name for VoiceOver.
+                        .accessibilityLabel("Sort and filter")
                     }
 
                     // Picks a random game and opens its detail sheet.
@@ -65,6 +67,7 @@ struct GameLibraryView: View {
                         } label: {
                             Image(systemName: "dice")
                         }
+                        .accessibilityLabel("Random game")
                         .disabled(viewModel.games.isEmpty)
                     }
 
@@ -74,6 +77,7 @@ struct GameLibraryView: View {
                         } label: {
                             Image(systemName: "bell")
                         }
+                        .accessibilityLabel("Notifications")
                     }
 
                     // The user's avatar. Tapping it asks to logout,
@@ -84,6 +88,7 @@ struct GameLibraryView: View {
                         } label: {
                             avatar
                         }
+                        .accessibilityLabel("Profile")
                     }
                 }
                 .alert("Logout", isPresented: $showingLogoutAlert) {
