@@ -19,6 +19,10 @@ final class GameLibraryViewModel: ObservableObject {
     // the full library is already in memory after one request.
     @Published var searchText = ""
 
+    @Published var selectedSort: SortOption = .playtime
+
+    @Published var selectedFilter: FilterOption = .all
+
     // The games loaded from the API. Only this class can change the list.
     @Published private(set) var games: [SteamGame] = []
 
@@ -35,15 +39,36 @@ final class GameLibraryViewModel: ObservableObject {
         self.service = service ?? SteamService()
     }
 
-    // The games shown on screen, filtered by the search text.
+    // The games shown on screen: search, filter and sort applied on
+    // top of the loaded list. Computed on demand so there is a single
+    // source of truth, instead of keeping a second published array.
     var filteredGames: [SteamGame] {
-        guard !searchText.isEmpty else {
-            return games
+        var result = games
+
+        if !searchText.isEmpty {
+            result = result.filter {
+                $0.name.localizedCaseInsensitiveContains(searchText)
+            }
         }
 
-        return games.filter {
-            $0.name.localizedCaseInsensitiveContains(searchText)
+        switch selectedFilter {
+        case .all:
+            break
+        case .played:
+            result = result.filter { $0.playtimeForever > 0 }
+        case .unplayed:
+            result = result.filter { $0.playtimeForever == 0 }
         }
+
+        switch selectedSort {
+        case .playtime:
+            // The service already returns most played first.
+            break
+        case .name:
+            result = result.sorted { $0.name < $1.name }
+        }
+
+        return result
     }
 
     // Loads the user's library. Used on launch, pull to refresh and retry.
