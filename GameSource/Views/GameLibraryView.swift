@@ -36,6 +36,16 @@ struct GameLibraryView: View {
                     prompt: "Search games"
                 )
                 .toolbar {
+                    // Picks a random game and opens its detail sheet.
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            selectedGame = viewModel.games.randomElement()
+                        } label: {
+                            Image(systemName: "dice")
+                        }
+                        .disabled(viewModel.games.isEmpty)
+                    }
+
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
                             showingLogoutAlert = true
