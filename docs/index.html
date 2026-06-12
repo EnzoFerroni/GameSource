@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>GameSource — Steam Login</title>
+    <script>
+        // Steam's OpenID flow only redirects to http(s) pages.
+        // This page forwards the callback, with its query string,
+        // into the app through the custom URL scheme.
+        window.location.replace("loginsteam://callback" + window.location.search);
+    </script>
+</head>
+<body>
+    <p>Returning to GameSource...</p>
+</body>
+</html>

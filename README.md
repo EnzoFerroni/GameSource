@@ -36,6 +36,6 @@ GameSource/
 3. Open `GameSource.xcodeproj` and run.
 4. Sign in with your Steam account (profile must be public).
 
-> Steam's OpenID flow only redirects to http(s) URLs, so login goes through a small static page on GitHub Pages that bounces back into the app via the `loginsteam://` scheme.
+> Steam's OpenID flow only redirects to http(s) URLs, so login goes through a small static page (`docs/index.html`, served by this repository's GitHub Pages) that bounces back into the app via the `loginsteam://` scheme.
 
 > `Secrets.xcconfig` is gitignored, so keys never reach the repository. The values are injected into the app at build time via `Info.plist`.
