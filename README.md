@@ -7,6 +7,12 @@
 
 iOS app written entirely in SwiftUI that consumes the [Steam Web API](https://steamcommunity.com/dev). After signing in with a real Steam account, the app shows the user's game library as a cover grid with search, sorting and filters. Tapping a game opens a detail sheet with playtime, the full achievement list with icons and progress, and a link to the Steam Store. It is a simplified rewrite of my original [GameSource](https://github.com/EnzoFerroni/GameSource), rebuilt with less code and a cleaner structure.
 
+## Screenshots
+
+| Login | Library | Filters | Detail | Notifications |
+| --- | --- | --- | --- | --- |
+| ![Login](Screenshots/login.png) | ![Library](Screenshots/library.png) | ![Filters](Screenshots/filters.png) | ![Game detail](Screenshots/game-detail.png) | ![Notifications](Screenshots/notifications.png) |
+
 ## Features
 
 - Sign in with Steam through the real OpenID login, persisted across launches
