@@ -66,11 +66,13 @@ struct GameLibraryView: View {
                         .disabled(viewModel.games.isEmpty)
                     }
 
+                    // The user's avatar; tapping it asks to logout,
+                    // same gesture as the original app.
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
                             showingLogoutAlert = true
                         } label: {
-                            Image(systemName: "rectangle.portrait.and.arrow.right")
+                            avatar
                         }
                     }
                 }
@@ -129,6 +131,20 @@ struct GameLibraryView: View {
         .refreshable {
             await viewModel.loadGames(steamID: steamID)
         }
+    }
+
+    // Falls back to a generic icon until the profile loads.
+    private var avatar: some View {
+        AsyncImage(url: viewModel.userProfile?.avatarURL) { image in
+            image
+                .resizable()
+                .scaledToFill()
+        } placeholder: {
+            Image(systemName: "person.crop.circle")
+                .font(.title2)
+        }
+        .frame(width: 32, height: 32)
+        .clipShape(Circle())
     }
 
     private var emptyState: some View {
