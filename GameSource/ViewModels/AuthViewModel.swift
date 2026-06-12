@@ -82,7 +82,7 @@ final class AuthViewModel: NSObject, ObservableObject {
 
         // Same key the views read with @AppStorage, so the app
         // switches to the library as soon as this is set.
-        UserDefaults.standard.set(steamID, forKey: "steamID")
+        UserDefaults.standard.set(steamID, forKey: StorageKey.steamID)
     }
 
     // The SteamID is the last path component of the claimed_id URL:

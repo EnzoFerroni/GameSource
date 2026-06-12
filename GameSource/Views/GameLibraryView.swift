@@ -15,7 +15,7 @@ struct GameLibraryView: View {
     @StateObject private var viewModel = GameLibraryViewModel()
 
     // SteamID saved by the login screen. Clearing it logs out.
-    @AppStorage("steamID") private var steamID = ""
+    @AppStorage(StorageKey.steamID) private var steamID = ""
 
     // The game tapped in the grid. Drives the detail sheet.
     @State private var selectedGame: SteamGame?

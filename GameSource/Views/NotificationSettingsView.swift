@@ -14,8 +14,8 @@ struct NotificationSettingsView: View {
     let games: [SteamGame]
 
     // Settings persist so the sheet reopens in the saved state.
-    @AppStorage("suggestionEnabled") private var isEnabled = false
-    @AppStorage("suggestionTime") private var savedTime = defaultTime
+    @AppStorage(StorageKey.suggestionEnabled) private var isEnabled = false
+    @AppStorage(StorageKey.suggestionTime) private var savedTime = defaultTime
 
     @State private var showingPermissionAlert = false
 

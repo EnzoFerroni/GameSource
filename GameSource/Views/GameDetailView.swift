@@ -15,7 +15,7 @@ struct GameDetailView: View {
     @StateObject private var viewModel = GameDetailViewModel()
 
     // Needed for the achievements request, since they are per user.
-    @AppStorage("steamID") private var steamID = ""
+    @AppStorage(StorageKey.steamID) private var steamID = ""
 
     @Environment(\.dismiss) private var dismiss
 
