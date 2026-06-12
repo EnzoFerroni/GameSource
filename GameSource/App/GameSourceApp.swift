@@ -11,9 +11,19 @@ import SwiftUI
 // so there is no need for AppDelegate or storyboards.
 @main
 struct GameSourceApp: App {
+
+    // Persisted SteamID; empty means no one is "logged in".
+    // Changing it makes SwiftUI swap the root view automatically.
+    @AppStorage("steamID") private var steamID = ""
+
     var body: some Scene {
         WindowGroup {
-            GameLibraryView()
+            if steamID.isEmpty {
+                LoginView()
+            }
+            else {
+                GameLibraryView()
+            }
         }
     }
 }

@@ -14,8 +14,13 @@ struct GameLibraryView: View {
     // so it survives re-renders but is created only once.
     @StateObject private var viewModel = GameLibraryViewModel()
 
+    // SteamID saved by the login screen. Clearing it logs out.
+    @AppStorage("steamID") private var steamID = ""
+
     // The game tapped in the grid. Drives the detail sheet.
     @State private var selectedGame: SteamGame?
+
+    @State private var showingLogoutAlert = false
 
     private let columns = [
         GridItem(.flexible()),
@@ -30,13 +35,32 @@ struct GameLibraryView: View {
                     text: $viewModel.searchText,
                     prompt: "Search games"
                 )
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            showingLogoutAlert = true
+                        } label: {
+                            Image(systemName: "rectangle.portrait.and.arrow.right")
+                        }
+                    }
+                }
+                .alert("Logout", isPresented: $showingLogoutAlert) {
+                    Button("Cancel", role: .cancel) { }
+
+                    Button("Logout", role: .destructive) {
+                        // Clearing the stored ID sends the app back to login.
+                        steamID = ""
+                    }
+                } message: {
+                    Text("Are you sure you want to logout?")
+                }
         }
         .sheet(item: $selectedGame) { game in
             GameDetailView(game: game)
         }
         // .task runs when the view appears and is cancelled if it disappears.
         .task {
-            await viewModel.loadGames()
+            await viewModel.loadGames(steamID: steamID)
         }
     }
 
@@ -73,7 +97,7 @@ struct GameLibraryView: View {
             .padding()
         }
         .refreshable {
-            await viewModel.loadGames()
+            await viewModel.loadGames(steamID: steamID)
         }
     }
 
@@ -97,7 +121,7 @@ struct GameLibraryView: View {
         } actions: {
             Button("Try Again") {
                 Task {
-                    await viewModel.loadGames()
+                    await viewModel.loadGames(steamID: steamID)
                 }
             }
         }

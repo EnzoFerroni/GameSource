@@ -6,6 +6,7 @@ This is a simplified version of [GameSource](https://github.com/EnzoFerroni/Game
 
 ## Features
 
+- Login with your SteamID, persisted across launches
 - Browse your Steam library, sorted by most played
 - Search games by name
 - Game detail screen with playtime and a link to the Steam Store
@@ -29,8 +30,8 @@ GameSource/
 ## Running
 
 1. Get a Steam Web API key at <https://steamcommunity.com/dev/apikey>.
-2. Find your 64-bit SteamID at <https://steamid.io> (your profile must be public).
-3. Open `GameSource/Secrets.xcconfig` and fill in `STEAM_API_KEY` and `STEAM_ID`.
-4. Open `GameSource.xcodeproj` and run.
+2. Open `GameSource/Secrets.xcconfig` and fill in `STEAM_API_KEY`.
+3. Open `GameSource.xcodeproj` and run.
+4. Log in with your 64-bit SteamID — see <https://steamid.io> (profile must be public).
 
 > `Secrets.xcconfig` is gitignored, so keys never reach the repository. The values are injected into the app at build time via `Info.plist`.
