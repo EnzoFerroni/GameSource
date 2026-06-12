@@ -7,16 +7,12 @@
 
 import SwiftUI
 
-// Entry screen: asks for the user's SteamID before showing the library.
-// A full Steam OpenID login would need a web session; for this scope
-// the public SteamID is enough, since the API only reads public data.
+// Entry screen: signs in through Steam's real OpenID page.
+// The view model stores the SteamID on success, which makes the
+// app root swap to the library automatically.
 struct LoginView: View {
 
-    // Persisted across launches. The app switches to the library
-    // as soon as this stops being empty.
-    @AppStorage("steamID") private var steamID = ""
-
-    @State private var typedID = ""
+    @StateObject private var viewModel = AuthViewModel()
 
     var body: some View {
         VStack(spacing: 32) {
@@ -25,22 +21,17 @@ struct LoginView: View {
             header
 
             VStack(spacing: 16) {
-                TextField("SteamID (64-bit)", text: $typedID)
-                    .keyboardType(.numberPad)
-                    .textFieldStyle(.roundedBorder)
+                signInButton
 
-                Button {
-                    steamID = typedID
-                } label: {
-                    Label("View Library", systemImage: "gamecontroller")
-                        .frame(maxWidth: .infinity)
+                if let message = viewModel.errorMessage {
+                    Text(message)
+                        .font(.footnote)
+                        .foregroundStyle(.red)
+                        .multilineTextAlignment(.center)
                 }
-                .buttonStyle(.borderedProminent)
-                // Avoids "logging in" with an empty or partial ID.
-                .disabled(typedID.count < 17)
             }
 
-            Text("Find your SteamID at steamid.io. Your profile must be public.")
+            Text("You will be redirected to the official Steam page. Your profile must be public.")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
@@ -61,12 +52,35 @@ struct LoginView: View {
                 Text("GameSource")
                     .font(.largeTitle.bold())
 
-                Text("Enter your SteamID to browse your library")
+                Text("Connect with Steam to browse your library")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
             }
         }
+    }
+
+    private var signInButton: some View {
+        Button {
+            viewModel.signIn()
+        } label: {
+            HStack(spacing: 12) {
+                if viewModel.isLoading {
+                    ProgressView()
+                        .tint(.white)
+                }
+                else {
+                    Image(systemName: "gamecontroller")
+                }
+
+                Text(viewModel.isLoading ? "Connecting..." : "Sign in with Steam")
+                    .font(.headline)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 8)
+        }
+        .buttonStyle(.borderedProminent)
+        .disabled(viewModel.isLoading)
     }
 }
 
