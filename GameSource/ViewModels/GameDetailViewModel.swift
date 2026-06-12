@@ -59,10 +59,7 @@ final class GameDetailViewModel: ObservableObject {
     }
 
     // Joins the two responses into the display model the view reads.
-    private func merge(
-        _ progress: [SteamAchievement],
-        with schemas: [AchievementSchema]
-    ) -> [GameAchievement] {
+    private func merge(_ progress: [SteamAchievement], with schemas: [AchievementSchema]) -> [GameAchievement] {
         // A dictionary makes finding each icon instant, instead of
         // searching the whole list once per achievement.
         let schemaByName = Dictionary(
@@ -82,9 +79,7 @@ final class GameDetailViewModel: ObservableObject {
                 name: achievement.name,
                 description: achievement.description,
                 isUnlocked: isUnlocked,
-                unlockDate: achievement.unlocktime > 0
-                    ? Date(timeIntervalSince1970: TimeInterval(achievement.unlocktime))
-                    : nil,
+                unlockDate: achievement.unlocktime > 0 ? Date(timeIntervalSince1970: TimeInterval(achievement.unlocktime)): nil,
                 iconURL: icon.flatMap(URL.init)
             )
         }

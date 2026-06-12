@@ -41,10 +41,7 @@ final class AuthViewModel: NSObject, ObservableObject {
             return
         }
 
-        session = ASWebAuthenticationSession(
-            url: url,
-            callbackURLScheme: "loginsteam"
-        ) { [weak self] callbackURL, _ in
+        session = ASWebAuthenticationSession(url: url, callbackURLScheme: "loginsteam") { [weak self] callbackURL, _ in
             Task { @MainActor in
                 self?.handleCallback(callbackURL)
             }
@@ -88,13 +85,11 @@ final class AuthViewModel: NSObject, ObservableObject {
     // The SteamID is the last path component of the claimed_id URL:
     // https://steamcommunity.com/openid/id/7656119...
     private func extractSteamID(from url: URL) -> String? {
-        let queryItems = URLComponents(
-            url: url, resolvingAgainstBaseURL: false
-        )?.queryItems
+        let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems
 
         guard let claimedID = queryItems?.first(
-            where: { $0.name == "openid.claimed_id" }
-        )?.value else {
+            where: { $0.name == "openid.claimed_id" })?.value
+        else {
             return nil
         }
 
@@ -104,9 +99,7 @@ final class AuthViewModel: NSObject, ObservableObject {
 
 // Tells the web login session which window to appear in.
 extension AuthViewModel: ASWebAuthenticationPresentationContextProviding {
-    func presentationAnchor(
-        for session: ASWebAuthenticationSession
-    ) -> ASPresentationAnchor {
+    func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         ASPresentationAnchor()
     }
 }

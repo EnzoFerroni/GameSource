@@ -18,8 +18,7 @@ struct NotificationService {
         let center = UNUserNotificationCenter.current()
 
         return (try? await center.requestAuthorization(
-            options: [.alert, .sound]
-        )) ?? false
+            options: [.alert, .sound])) ?? false
     }
 
     // Schedules a repeating daily notification suggesting one game.
