@@ -76,7 +76,7 @@ struct GameLibraryView: View {
                         }
                     }
 
-                    // The user's avatar; tapping it asks to logout,
+                    // The user's avatar. Tapping it asks to logout,
                     // same gesture as the original app.
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {

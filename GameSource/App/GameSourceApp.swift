@@ -7,12 +7,11 @@
 
 import SwiftUI
 
-// App entry point. SwiftUI builds the whole scene from here,
-// so there is no need for AppDelegate or storyboards.
+// App entry point. SwiftUI builds the whole scene from here.
 @main
 struct GameSourceApp: App {
 
-    // Persisted SteamID; empty means no one is "logged in".
+    // SteamID saved on the device. Empty means nobody is logged in.
     // Changing it makes SwiftUI swap the root view automatically.
     @AppStorage(StorageKey.steamID) private var steamID = ""
 

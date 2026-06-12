@@ -13,7 +13,7 @@ import AuthenticationServices
 // Steam only redirects to http(s) URLs, so a small static page on
 // GitHub Pages receives the callback and bounces back into the app
 // through the loginsteam:// custom scheme.
-// NSObject is required by the presentation context protocol below.
+// NSObject is required by the protocol at the bottom of this file.
 @MainActor
 final class AuthViewModel: NSObject, ObservableObject {
 

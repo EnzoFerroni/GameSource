@@ -31,7 +31,7 @@ struct NotificationSettingsView: View {
         )?.timeIntervalSince1970 ?? 0
     }
 
-    // Bridges the stored number to the Date the picker needs.
+    // Converts the stored number to the Date the picker needs, and back.
     private var selectedTime: Binding<Date> {
         Binding(
             get: { Date(timeIntervalSince1970: savedTime) },
@@ -94,8 +94,8 @@ struct NotificationSettingsView: View {
             return
         }
 
-        // Suggests an unplayed game; falls back to any game when
-        // everything has been played already.
+        // Prefers a game never played. When everything has been
+        // played already, any game works.
         let unplayed = games.filter { $0.playtimeForever == 0 }
 
         guard let game = (unplayed.isEmpty ? games : unplayed).randomElement() else {

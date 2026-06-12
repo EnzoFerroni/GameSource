@@ -7,7 +7,7 @@
 
 import Foundation
 
-// Mirrors the JSON returned by Steam's GetPlayerSummaries endpoint:
+// Matches the JSON that Steam's GetPlayerSummaries endpoint returns:
 // { "response": { "players": [...] } }
 struct SteamUserProfileResponse: Decodable {
     let response: PlayerList
