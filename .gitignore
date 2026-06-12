@@ -1,0 +1,10 @@
+# Secrets — never commit API keys
+GameSource/Secrets.xcconfig
+
+# macOS
+.DS_Store
+
+# Xcode
+xcuserdata/
+DerivedData/
+*.xcuserstate
