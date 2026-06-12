@@ -19,6 +19,9 @@ struct GameDetailView: View {
 
     @Environment(\.dismiss) private var dismiss
 
+    // Achievements start collapsed; the header summary is always visible.
+    @State private var showingAchievements = false
+
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -97,50 +100,83 @@ struct GameDetailView: View {
 
     private var achievementsSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                Image(systemName: "trophy.fill")
-                    .foregroundStyle(.orange)
-
-                Text("Achievements")
-                    .font(.headline)
-
-                if !viewModel.achievements.isEmpty {
-                    Text("(\(viewModel.unlockedCount)/\(viewModel.achievements.count))")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-            }
-
             if viewModel.isLoading {
+                achievementsTitle
+
                 ProgressView()
                     .frame(maxWidth: .infinity)
             }
             else if viewModel.achievements.isEmpty {
+                achievementsTitle
+
                 Text("No achievements available for this game.")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             }
             else {
-                // Lazy because some games have hundreds of achievements.
-                LazyVStack(alignment: .leading, spacing: 12) {
-                    ForEach(viewModel.achievements) { achievement in
-                        achievementRow(achievement)
+                // The header with the progress summary stays visible;
+                // expanding reveals the full list.
+                DisclosureGroup(isExpanded: $showingAchievements) {
+                    // Lazy because some games have hundreds of them.
+                    LazyVStack(alignment: .leading, spacing: 16) {
+                        ForEach(viewModel.achievements) { achievement in
+                            achievementRow(achievement)
+                        }
                     }
+                    .padding(.top, 12)
+                } label: {
+                    achievementsHeader
                 }
+                .tint(.secondary)
             }
+        }
+        .padding()
+        .background(Color(.systemGray6))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
+
+    private var achievementsTitle: some View {
+        HStack {
+            Image(systemName: "trophy.fill")
+                .foregroundStyle(.orange)
+
+            Text("Achievements")
+                .font(.headline)
         }
     }
 
-    private func achievementRow(_ achievement: SteamAchievement) -> some View {
+    // Unlocked count, percentage and progress bar in one glance.
+    private var achievementsHeader: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                achievementsTitle
+
+                Spacer()
+
+                Text("\(viewModel.unlockedCount)/\(viewModel.achievements.count)")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            }
+
+            ProgressView(value: viewModel.completion)
+
+            Text("\(Int(viewModel.completion * 100))% complete")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+        .padding(.trailing, 8)
+    }
+
+    private func achievementRow(_ achievement: GameAchievement) -> some View {
         HStack(alignment: .top, spacing: 12) {
-            Image(systemName: achievement.isUnlocked
-                ? "checkmark.circle.fill"
-                : "circle")
-                .foregroundStyle(achievement.isUnlocked ? .green : .secondary)
+            achievementIcon(achievement)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(achievement.name)
                     .font(.subheadline.weight(.medium))
+                    .foregroundStyle(
+                        achievement.isUnlocked ? Color.primary : Color.secondary
+                    )
 
                 if let description = achievement.description,
                    !description.isEmpty {
@@ -148,8 +184,42 @@ struct GameDetailView: View {
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
+
+                if let date = achievement.unlockDate {
+                    Text("Unlocked \(date.formatted(date: .abbreviated, time: .omitted))")
+                        .font(.caption2.weight(.medium))
+                        .foregroundStyle(.green)
+                }
+            }
+
+            Spacer()
+
+            Image(systemName: achievement.isUnlocked
+                ? "checkmark.circle.fill"
+                : "lock.circle.fill")
+                .foregroundStyle(
+                    achievement.isUnlocked ? Color.green : Color.secondary
+                )
+        }
+    }
+
+    // The icon Steam provides: colored when unlocked, gray otherwise.
+    private func achievementIcon(_ achievement: GameAchievement) -> some View {
+        AsyncImage(url: achievement.iconURL) { image in
+            image
+                .resizable()
+                .scaledToFit()
+        } placeholder: {
+            ZStack {
+                Rectangle()
+                    .fill(.quaternary)
+
+                Image(systemName: "trophy")
+                    .foregroundStyle(.secondary)
             }
         }
+        .frame(width: 48, height: 48)
+        .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 
     private func statRow(icon: String, title: String, value: String) -> some View {
