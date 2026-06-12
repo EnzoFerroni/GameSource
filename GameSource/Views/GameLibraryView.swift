@@ -7,12 +7,20 @@
 
 import SwiftUI
 
-// Main screen: the user's Steam library as a searchable list.
+// Main screen: the user's Steam library as a searchable cover grid.
 struct GameLibraryView: View {
 
     // @StateObject ties the view model's lifetime to this view,
     // so it survives re-renders but is created only once.
     @StateObject private var viewModel = GameLibraryViewModel()
+
+    // The game tapped in the grid. Drives the detail sheet.
+    @State private var selectedGame: SteamGame?
+
+    private let columns = [
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ]
 
     var body: some View {
         NavigationStack {
@@ -22,9 +30,9 @@ struct GameLibraryView: View {
                     text: $viewModel.searchText,
                     prompt: "Search games"
                 )
-                .navigationDestination(for: SteamGame.self) { game in
-                    GameDetailView(game: game)
-                }
+        }
+        .sheet(item: $selectedGame) { game in
+            GameDetailView(game: game)
         }
         // .task runs when the view appears and is cancelled if it disappears.
         .task {
@@ -32,7 +40,7 @@ struct GameLibraryView: View {
         }
     }
 
-    // Decides which state to show: loading, error, empty or the list.
+    // Decides which state to show: loading, error, empty or the grid.
     @ViewBuilder
     private var content: some View {
         if viewModel.isLoading {
@@ -45,17 +53,25 @@ struct GameLibraryView: View {
             emptyState
         }
         else {
-            gameList
+            gameGrid
         }
     }
 
-    private var gameList: some View {
-        List(viewModel.filteredGames) { game in
-            NavigationLink(value: game) {
-                GameRowView(game: game)
+    // LazyVGrid only builds the cards that are about to appear,
+    // which keeps scrolling smooth on large libraries.
+    private var gameGrid: some View {
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: 16) {
+                ForEach(viewModel.filteredGames) { game in
+                    Button {
+                        selectedGame = game
+                    } label: {
+                        GameCardView(game: game)
+                    }
+                }
             }
+            .padding()
         }
-        .listStyle(.plain)
         .refreshable {
             await viewModel.loadGames()
         }
