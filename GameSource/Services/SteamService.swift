@@ -18,6 +18,7 @@ enum SteamServiceError: Error {
 protocol GameFetching {
     func fetchOwnedGames(steamID: String) async throws -> [SteamGame]
     func fetchAchievements(steamID: String, appId: Int) async throws -> [SteamAchievement]
+    func fetchAchievementSchemas(appId: Int) async throws -> [AchievementSchema]
     func fetchUserProfile(steamID: String) async throws -> SteamUserProfile?
 }
 
@@ -108,6 +109,38 @@ struct SteamService: GameFetching {
         )
 
         return decoded.playerstats.achievements ?? []
+    }
+
+    // Fetches the achievement icons for one game. Unlike the call
+    // above, this data is per game, not per user.
+    func fetchAchievementSchemas(appId: Int) async throws -> [AchievementSchema] {
+        let path = "/ISteamUserStats/GetSchemaForGame/v2/"
+
+        guard var components = URLComponents(string: baseURL + path) else {
+            throw SteamServiceError.invalidURL
+        }
+
+        components.queryItems = [
+            URLQueryItem(name: "key", value: apiKey),
+            URLQueryItem(name: "appid", value: String(appId))
+        ]
+
+        guard let url = components.url else {
+            throw SteamServiceError.invalidURL
+        }
+
+        let (data, response) = try await URLSession.shared.data(from: url)
+
+        guard let httpResponse = response as? HTTPURLResponse,
+              httpResponse.statusCode == 200 else {
+            throw SteamServiceError.requestFailed
+        }
+
+        let decoded = try JSONDecoder().decode(
+            AchievementSchemaResponse.self, from: data
+        )
+
+        return decoded.game?.availableGameStats?.achievements ?? []
     }
 
     // Fetches the logged user's public profile (name and avatar).
