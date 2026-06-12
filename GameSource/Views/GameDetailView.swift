@@ -7,11 +7,15 @@
 
 import SwiftUI
 
-// Detail sheet for a game: banner, stats and a link to the store.
-// Uses only data already loaded by the library, so no extra request.
+// Detail sheet for a game: banner, stats, achievements and a store link.
 struct GameDetailView: View {
 
     let game: SteamGame
+
+    @StateObject private var viewModel = GameDetailViewModel()
+
+    // Needed for the achievements request, since they are per user.
+    @AppStorage("steamID") private var steamID = ""
 
     @Environment(\.dismiss) private var dismiss
 
@@ -25,6 +29,8 @@ struct GameDetailView: View {
                         .font(.title2.bold())
 
                     stats
+
+                    achievementsSection
 
                     if let storeURL {
                         Link(destination: storeURL) {
@@ -44,6 +50,9 @@ struct GameDetailView: View {
                     }
                 }
             }
+        }
+        .task {
+            await viewModel.loadAchievements(steamID: steamID, appId: game.appid)
         }
     }
 
@@ -84,6 +93,63 @@ struct GameDetailView: View {
         .padding()
         .background(Color(.systemGray6))
         .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
+
+    private var achievementsSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Image(systemName: "trophy.fill")
+                    .foregroundStyle(.orange)
+
+                Text("Achievements")
+                    .font(.headline)
+
+                if !viewModel.achievements.isEmpty {
+                    Text("(\(viewModel.unlockedCount)/\(viewModel.achievements.count))")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+
+            if viewModel.isLoading {
+                ProgressView()
+                    .frame(maxWidth: .infinity)
+            }
+            else if viewModel.achievements.isEmpty {
+                Text("No achievements available for this game.")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            }
+            else {
+                // Lazy because some games have hundreds of achievements.
+                LazyVStack(alignment: .leading, spacing: 12) {
+                    ForEach(viewModel.achievements) { achievement in
+                        achievementRow(achievement)
+                    }
+                }
+            }
+        }
+    }
+
+    private func achievementRow(_ achievement: SteamAchievement) -> some View {
+        HStack(alignment: .top, spacing: 12) {
+            Image(systemName: achievement.isUnlocked
+                ? "checkmark.circle.fill"
+                : "circle")
+                .foregroundStyle(achievement.isUnlocked ? .green : .secondary)
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(achievement.name)
+                    .font(.subheadline.weight(.medium))
+
+                if let description = achievement.description,
+                   !description.isEmpty {
+                    Text(description)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+        }
     }
 
     private func statRow(icon: String, title: String, value: String) -> some View {

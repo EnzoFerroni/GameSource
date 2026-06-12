@@ -17,6 +17,7 @@ enum SteamServiceError: Error {
 // Lets tests replace the real service with a fake one.
 protocol GameFetching {
     func fetchOwnedGames(steamID: String) async throws -> [SteamGame]
+    func fetchAchievements(steamID: String, appId: Int) async throws -> [SteamAchievement]
 }
 
 // Handles all communication with the Steam Web API.
@@ -62,5 +63,49 @@ struct SteamService: GameFetching {
         let games = decoded.response.games ?? []
 
         return games.sorted { $0.playtimeForever > $1.playtimeForever }
+    }
+
+    // Fetches the user's achievements for one game.
+    // The "l" parameter makes Steam include readable names and
+    // descriptions, so no second request for the game schema is needed.
+    func fetchAchievements(steamID: String, appId: Int) async throws -> [SteamAchievement] {
+        let path = "/ISteamUserStats/GetPlayerAchievements/v0001/"
+
+        guard var components = URLComponents(string: baseURL + path) else {
+            throw SteamServiceError.invalidURL
+        }
+
+        components.queryItems = [
+            URLQueryItem(name: "key", value: apiKey),
+            URLQueryItem(name: "steamid", value: steamID),
+            URLQueryItem(name: "appid", value: String(appId)),
+            URLQueryItem(name: "l", value: "english")
+        ]
+
+        guard let url = components.url else {
+            throw SteamServiceError.invalidURL
+        }
+
+        let (data, response) = try await URLSession.shared.data(from: url)
+
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw SteamServiceError.requestFailed
+        }
+
+        // Steam answers 400 when the game simply has no achievements;
+        // that is not an error for us, just an empty list.
+        guard httpResponse.statusCode != 400 else {
+            return []
+        }
+
+        guard httpResponse.statusCode == 200 else {
+            throw SteamServiceError.requestFailed
+        }
+
+        let decoded = try JSONDecoder().decode(
+            SteamAchievementsResponse.self, from: data
+        )
+
+        return decoded.playerstats.achievements ?? []
     }
 }
