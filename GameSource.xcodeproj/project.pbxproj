@@ -26,6 +26,8 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
+				Secrets.xcconfig,
+				Secrets.xcconfig.template,
 			);
 			target = C7AA000100000000000000A8 /* GameSource */;
 		};
