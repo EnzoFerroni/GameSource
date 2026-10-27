@@ -1,10 +1,21 @@
-# Secrets — never commit API keys
+# Secrets: never commit API keys (copy Secrets.xcconfig.template instead)
 GameSource/Secrets.xcconfig
 
 # macOS
 .DS_Store
+*.icloud
 
 # Xcode
 xcuserdata/
-DerivedData/
 *.xcuserstate
+DerivedData/
+build/
+.build/
+
+# App packaging
+*.ipa
+*.dSYM
+*.dSYM.zip
+
+# Local tooling
+CLAUDE.md
