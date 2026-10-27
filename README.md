@@ -127,3 +127,7 @@ The view models are tested with Swift Testing and the injected `FakeGameService`
 **Left out on purpose**
 
 No image cache beyond what `AsyncImage` provides, no offline persistence and no third-party libraries. The goal is the smallest codebase that still covers the full flow: real login, REST consumption, MVVM and tests.
+
+## License
+
+Released under the [MIT License](LICENSE). Copyright (c) 2026 Enzo Ferroni.
