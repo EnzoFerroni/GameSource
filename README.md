@@ -4,7 +4,7 @@
 
 # GameSource
 
-[![iOS](https://img.shields.io/badge/iOS-26.5%2B-000000?logo=apple)](https://developer.apple.com/ios/)
+[![iOS](https://img.shields.io/badge/iOS-15%2B-000000?logo=apple)](https://developer.apple.com/ios/)
 [![Swift](https://img.shields.io/badge/Swift-5-F05138?logo=swift&logoColor=white)](https://swift.org)
 [![SwiftUI](https://img.shields.io/badge/SwiftUI-MVVM-0A84FF)](https://developer.apple.com/xcode/swiftui/)
 [![Steam](https://img.shields.io/badge/Steam-Web%20API-1B2838?logo=steam&logoColor=white)](https://steamcommunity.com/dev)
@@ -44,6 +44,8 @@ happens entirely on Steam's own page. It consumes the
 
 Version 2.0 is a rewrite of the App Store app with less code and a cleaner structure.
 
+- **Runs on iOS 15 and later.** Version 1.0 required iOS 18.5, so 2.0 reaches
+  many more devices. Newer APIs are used when available, with simple fallbacks.
 - **Leaner MVVM.** One view model per screen, all marked `@MainActor`, with the
   network layer behind a small `GameFetching` protocol.
 - **Unit tests.** Swift Testing suites for the library and detail view models, using
@@ -80,7 +82,7 @@ Version 2.0 is a rewrite of the App Store app with less code and a cleaner struc
 ## Requirements
 
 - Xcode 26 or later
-- iOS 26.5 or later
+- iOS 15 or later on the device (the tests run on iOS 18 or later)
 - A Steam account with a public profile
 - A free [Steam Web API key](https://steamcommunity.com/dev/apikey)
 
