@@ -1,197 +1,133 @@
-<div align="center">
-
-<img src="docs/icon.jpg" width="140" alt="GameSource app icon" style="border-radius: 28px;"/>
-
 # GameSource
 
-### Your Steam library and achievements, beautifully in your pocket.
+[![Platform](https://img.shields.io/badge/Platform-iOS-blue.svg?style=flat)](https://developer.apple.com/ios/)
+[![Swift](https://img.shields.io/badge/Swift-5-orange.svg?style=flat)](https://swift.org)
+[![SwiftUI](https://img.shields.io/badge/UI-SwiftUI-green.svg?style=flat)](https://developer.apple.com/xcode/swiftui/)
+[![Architecture](https://img.shields.io/badge/Architecture-MVVM-red.svg?style=flat)](#architecture)
 
-Sign in with Steam, browse your whole game library, search and filter it, and dive
-into every game's stats and achievements, in a clean, native SwiftUI app.
-
-<br/>
-
-[![Platform](https://img.shields.io/badge/iOS-15.6+-000000?logo=apple&logoColor=white)](https://www.apple.com/ios/)
-[![Swift](https://img.shields.io/badge/Swift-5-FA7343?logo=swift&logoColor=white)](https://swift.org)
-[![SwiftUI](https://img.shields.io/badge/SwiftUI-0080FF?logo=swift&logoColor=white)](https://developer.apple.com/xcode/swiftui/)
-[![Steam](https://img.shields.io/badge/Steam-Web%20API-1b2838?logo=steam&logoColor=white)](https://steamcommunity.com/dev)
-[![License](https://img.shields.io/badge/License-MIT-3DA639)](LICENSE)
-
-<br/>
-
-<a href="https://apps.apple.com/br/app/gamesource/id6749157683">
-  <img src="https://developer.apple.com/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg" height="56" alt="Download on the App Store"/>
-</a>
-&nbsp;
-<a href="https://www.linkedin.com/posts/enzoferroni_gostaria-de-compartilhar-com-voc%C3%AAs-um-projeto-ugcPost-7358562327186620417-LI9j/">
-  <img src="https://img.shields.io/badge/▶_Watch_the_demo-on_LinkedIn-0A66C2?logo=linkedin&logoColor=white" alt="Watch the demo on LinkedIn"/>
-</a>
-
-</div>
-
----
-
-## Table of Contents
-
-- [About](#about)
-- [Screenshots](#screenshots)
-- [Features](#features)
-- [How It Works](#how-it-works)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
-- [Author](#author)
-- [License](#license)
-
----
-
-## About
-
-**GameSource** is a native **SwiftUI** iOS app that connects to your **Steam**
-account through Steam OpenID, then brings your entire game library to life: cover
-art, playtime, completion progress, and the full achievement list for every title,
-all fetched live from the **Steam Web API**.
-
-No passwords are ever handled by the app; authentication happens entirely on
-Steam's own login page.
-
----
+iOS app written entirely in SwiftUI that consumes the [Steam Web API](https://steamcommunity.com/dev). After signing in with a real Steam account, the app shows the user's game library as a cover grid with search, sorting and filters. Tapping a game opens a detail sheet with playtime, the full achievement list with icons and progress, and a link to the Steam Store. It is a simplified rewrite of my original [GameSource](https://github.com/EnzoFerroni/GameSource), rebuilt with less code and a cleaner structure.
 
 ## Screenshots
 
-<div align="center">
-
-| Steam Sign-In | Library | Filters & Sorting |
-|:---:|:---:|:---:|
-| <img src="docs/screenshots/login.png" width="240"/> | <img src="docs/screenshots/games.png" width="240"/> | <img src="docs/screenshots/filter.png" width="240"/> |
-
-| Game Details & Achievements | Notifications |
-|:---:|:---:|
-| <img src="docs/screenshots/gameDetailwithAchivements.png" width="240"/> | <img src="docs/screenshots/notification.png" width="240"/> |
-
-</div>
-
----
+| Login | Library | Filters | Detail | Notifications |
+| --- | --- | --- | --- | --- |
+| ![Login](Screenshots/login.png) | ![Library](Screenshots/library.png) | ![Filters](Screenshots/filters.png) | ![Game detail](Screenshots/game-detail.png) | ![Notifications](Screenshots/notifications.png) |
 
 ## Features
 
-- **Sign in with Steam**: secure OpenID login, no credentials touch the app
-- **Full game library**: cover art, playtime and quick browsing
-- **Search & filter**: find games by name and sort/filter your collection
-- **Achievements**: per-game progress, completion %, and unlock dates
-- **Game recommendations**: personalized suggestions from your library
-- **Notifications**: configurable notification settings
-- **Native dark UI**: polished SwiftUI interface, light & dark icon variants
+- Sign in with Steam through the real OpenID login, persisted across launches
+- Library as a cover grid, with the user's avatar in the toolbar
+- Search, sort (playtime or name) and filter (all, played, unplayed)
+- Detail sheet with playtime, achievements (icons, unlock dates, completion bar) and a store link
+- Random game picker
+- Daily notification suggesting a game never played
+- Loading, error and empty states, with pull to refresh and retry
 
----
+## Requirements
 
-## How It Works
-
-GameSource authenticates with **Steam OpenID** and reads data from the **Steam Web API**:
-
-1. The user taps **Sign in with Steam** and is sent to Steam's official login page.
-2. After login, Steam redirects to a small `index.html` callback page hosted on
-   GitHub Pages, which forwards the result back into the app via a custom URL
-   scheme (`loginsteam://callback`).
-3. `AuthViewModel` extracts the resolved **SteamID** from the callback.
-4. `SteamService` calls the Steam Web API to load the owned games, playtime,
-   profile and per-game achievements; `GamesViewModel` handles search & filtering.
-
-```
-SteamLoginButton ──▶ Steam OpenID ──▶ index.html ──▶ loginsteam://callback
-        │                                                     │
-        ▼                                                     ▼
-   AuthViewModel  ◀──────────  SteamID  ──────────▶  SteamService ──▶ Steam Web API
-```
-
----
-
-## Tech Stack
-
-- **Language:** Swift 5
-- **UI:** SwiftUI
-- **Networking:** `URLSession` against the Steam Web API
-- **Auth:** Steam OpenID + custom URL scheme callback
-- **Architecture:** MVVM (Models · Services · ViewModels · Views)
-- **Minimum target:** iOS 15.6
-
----
-
-## Project Structure
-
-```
-GameSource/GameSource/
-├── GameSourceApp.swift            # App entry point
-├── Models/                        # Codable types mapping Steam API responses
-│   ├── SteamGame.swift
-│   ├── SteamAchievement.swift
-│   ├── SteamUserProfile.swift
-│   └── FilterOptions.swift
-├── Services/
-│   ├── SteamService.swift         # Steam Web API calls
-│   ├── APIConfiguration.swift     # Reads the API key from APIKeys.plist
-│   └── GameRecommendationService.swift
-├── ViewModels/
-│   ├── AuthViewModel.swift        # Steam OpenID login flow
-│   └── GamesViewModel.swift       # Library, search & filters
-└── Views/                         # SwiftUI screens & components
-    ├── LoginView.swift / SteamLoginButton.swift
-    ├── AuthenticatedView.swift / ContentView.swift
-    ├── GameGridView.swift / GameCardView.swift
-    ├── GameDetailView.swift / AchievementRowView.swift
-    ├── FilterBarView.swift / NotificationSettingsView.swift
-    └── EmptyStateView.swift / LoadingStateView.swift / SteamImageView.swift
-```
-
----
+- Xcode 26 or later
+- iOS 26 or later
+- A Steam account with a public profile
+- A free [Steam Web API key](https://steamcommunity.com/dev/apikey)
 
 ## Getting Started
 
-**Requirements:** Xcode 15+ and a [Steam Web API key](https://steamcommunity.com/dev/apikey).
+**1. Clone the repository**
 
 ```bash
-# 1. Clone the repository
-git clone https://github.com/EnzoFerroni/GameSource
-cd GameSource
-
-# 2. Create your keys file from the template
-cp GameSource/GameSource/APIKeys.plist.template GameSource/GameSource/APIKeys.plist
+git clone https://github.com/EnzoFerroni/GameSource-Case.git
+cd GameSource-Case
 ```
 
-3. Open `APIKeys.plist` and replace `YOUR_STEAM_API_KEY_HERE` with your Steam Web API key.
-   > `APIKeys.plist` is in `.gitignore`: your key is never committed.
+**2. Add your Steam API key**
 
-```bash
-# 4. Open the project in Xcode
-open GameSource/GameSource.xcodeproj
+The key is kept out of version control. Create `GameSource/Secrets.xcconfig` with your own key:
+
+```
+STEAM_API_KEY = your_key_here
 ```
 
-5. Pick a simulator or device and run with **⌘R**.
+**3. Run**
 
----
+Open `GameSource.xcodeproj`, select an iOS Simulator and press Run. No package resolution or extra setup is needed.
 
-## Author
+**4. Sign in**
 
-<div align="center">
-  <table>
-    <tr>
-      <td align="center" width="100%">
-        <a href="https://github.com/EnzoFerroni"><img src="https://github.com/EnzoFerroni.png" width="100" alt="Enzo Ferroni"/></a>
-        <br/><sub><b>Enzo Ferroni</b></sub><br/><br/>
-        <a href="https://github.com/EnzoFerroni"><img src="https://skillicons.dev/icons?i=github" alt="GitHub"/></a>
-        <a href="https://www.linkedin.com/in/enzoferroni/"><img src="https://skillicons.dev/icons?i=linkedin" alt="LinkedIn"/></a>
-      </td>
-    </tr>
-  </table>
-</div>
+Tap "Sign in with Steam" and log in with your account. Your profile and game details must be public for the API to return data.
 
----
+## Architecture
+
+The app follows **MVVM**. Views only describe the UI and forward user actions. Each screen has its own view model holding all state and logic, and every network call lives in a dedicated service layer.
+
+```
+GameSource/
+├── App/             GameSourceApp (entry point), StorageKey
+├── Models/          SteamGame, SteamAchievement, SteamUserProfile, FilterOptions
+├── Services/        SteamService, NotificationService, Secrets
+├── ViewModels/      AuthViewModel, GameLibraryViewModel, GameDetailViewModel
+└── Views/           LoginView, GameLibraryView, GameCardView, GameDetailView,
+                     NotificationSettingsView
+GameSourceTests/     FakeGameService, GameLibraryViewModelTests,
+                     GameDetailViewModelTests
+docs/                Static page that completes the Steam login (GitHub Pages)
+```
+
+Views observe the view model through `@Published` properties, so the UI updates itself whenever state changes. No third-party frameworks are used.
+
+## Technical Decisions
+
+**Real Steam login with `ASWebAuthenticationSession`**
+
+Steam has no "Sign in with Steam" SDK, only OpenID 2.0, and it only redirects back to http(s) addresses. The login opens Steam's official page in an `ASWebAuthenticationSession`; after login, Steam redirects to a small static page served by this repository's GitHub Pages (`docs/index.html`), which forwards the response into the app through the `loginsteam://` custom scheme. The session intercepts that scheme directly, so it does not need to be registered in the Info.plist. The SteamID is then read from the `openid.claimed_id` field.
+
+**MVVM with `ObservableObject`**
+
+Each view model is a `final class` marked `@MainActor`, so every state update is guaranteed to happen on the main thread, which SwiftUI requires. Screen state uses `@Published private(set)`, so views can read it but only the view model can change it.
+
+**The service behind a protocol**
+
+View models receive the service through the small `GameFetching` protocol with a default of `SteamService()`. Production code never changes, but tests inject a `FakeGameService` and run without touching the network.
+
+**`async/await` with parallel requests**
+
+All requests use `URLSession` with `async/await`. When two independent calls are needed (games and profile, or achievement progress and icons), `async let` starts both at the same time, so the screen waits only for the slower one.
+
+**Achievements merged with a dictionary**
+
+The achievement list comes from one endpoint and the icons from another. The two responses are joined through a dictionary keyed by achievement name, so finding each icon is instant instead of searching the whole list once per achievement.
+
+**Session with `@AppStorage`**
+
+The SteamID is saved in `UserDefaults` and read with `@AppStorage` at the app root. Login stores it, logout clears it, and SwiftUI swaps between the login screen and the library automatically. All storage keys live in one `StorageKey` enum, so a typo cannot split one value into two keys.
+
+**API key via `Secrets.xcconfig`**
+
+The Steam key is injected at build time through a gitignored `.xcconfig` file. At runtime, `Secrets.swift` reads it from `Bundle.main.infoDictionary`, keeping the key out of version control.
+
+**`LazyVGrid` and `AsyncImage`**
+
+The grid only builds the cards about to appear on screen, which keeps scrolling smooth on large libraries. Covers are downloaded by `AsyncImage`, with a placeholder that keeps the card size stable while the image loads or if it fails.
+
+**Loading, error and empty states**
+
+The library shows a spinner while loading, a retry button on failure and `ContentUnavailableView` when the library or a search comes back empty. A failure loading achievements only shows the section as empty, so the detail screen stays usable.
+
+**Daily suggestion with local notifications**
+
+`UNCalendarNotificationTrigger` repeats every day at the chosen time, suggesting a game never played. Scheduling always uses the same identifier, so saving again replaces the previous notification instead of stacking new ones.
+
+**Accessibility**
+
+Each game card reads as a single VoiceOver item with the game name, icon-only toolbar buttons have spoken labels, decorative images are hidden, and text uses scalable styles so it follows the size chosen in Settings (Dynamic Type).
+
+**Unit tests with a fake service**
+
+The view models are tested with Swift Testing and the injected `FakeGameService`: loading, error messages, search, filters, sorting, the achievement icon merge and the completion percentage. Run with **Cmd+U**.
+
+**Left out on purpose**
+
+No image cache beyond what `AsyncImage` provides, no offline persistence and no third-party libraries. The goal is the smallest codebase that still covers the full flow: real login, REST consumption, MVVM and tests.
 
 ## License
 
-Released under the [MIT License](LICENSE). © 2025 Enzo Ferroni.
-
-<div align="center">
-<br/>
-<sub>Not affiliated with Valve or Steam.</sub>
-</div>
+Released under the [MIT License](LICENSE). Copyright (c) 2026 Enzo Ferroni.
