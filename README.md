@@ -29,6 +29,7 @@ Your Steam library and achievements in a native SwiftUI app.
 - [Architecture](#architecture)
 - [Technical Decisions](#technical-decisions)
 - [Versions](#versions)
+- [Author](#author)
 - [License](#license)
 
 ## About
@@ -196,6 +197,21 @@ No image cache beyond what `AsyncImage` provides, no offline persistence and no 
 | --- | --- |
 | [2.0](https://github.com/EnzoFerroni/GameSource/tree/main) | Rewrite with tests, accessibility and a cleaner architecture (this branch) |
 | [1.0](https://github.com/EnzoFerroni/GameSource/tree/v1.0) | First App Store release |
+
+## Author
+
+<div align="center">
+  <table>
+    <tr>
+      <td align="center" width="100%">
+        <a href="https://github.com/EnzoFerroni"><img src="https://github.com/EnzoFerroni.png" width="90" alt="Enzo Ferroni"/></a>
+        <br/><sub><b>Enzo Ferroni</b></sub><br/><br/>
+        <a href="https://github.com/EnzoFerroni"><img src="https://skillicons.dev/icons?i=github" alt="GitHub"/></a>
+        <a href="https://www.linkedin.com/in/enzoferroni/"><img src="https://skillicons.dev/icons?i=linkedin" alt="LinkedIn"/></a>
+      </td>
+    </tr>
+  </table>
+</div>
 
 ## License
 
