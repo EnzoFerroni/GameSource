@@ -4,18 +4,18 @@
 
 # GameSource
 
-### Your Steam library and achievements, beautifully in your pocket. 🎮
+### Your Steam library and achievements, beautifully in your pocket.
 
 Sign in with Steam, browse your whole game library, search and filter it, and dive
-into every game's stats and achievements — in a clean, native SwiftUI app.
+into every game's stats and achievements, in a clean, native SwiftUI app.
 
 <br/>
 
-[![Platform](https://img.shields.io/badge/iOS-15.6+-000000?style=for-the-badge&logo=apple&logoColor=white)](https://www.apple.com/ios/)
-[![Swift](https://img.shields.io/badge/Swift-5-FA7343?style=for-the-badge&logo=swift&logoColor=white)](https://swift.org)
-[![SwiftUI](https://img.shields.io/badge/SwiftUI-0080FF?style=for-the-badge&logo=swift&logoColor=white)](https://developer.apple.com/xcode/swiftui/)
-[![Steam](https://img.shields.io/badge/Steam-Web%20API-1b2838?style=for-the-badge&logo=steam&logoColor=white)](https://steamcommunity.com/dev)
-[![License](https://img.shields.io/badge/License-MIT-3DA639?style=for-the-badge)](LICENSE)
+[![Platform](https://img.shields.io/badge/iOS-15.6+-000000?logo=apple&logoColor=white)](https://www.apple.com/ios/)
+[![Swift](https://img.shields.io/badge/Swift-5-FA7343?logo=swift&logoColor=white)](https://swift.org)
+[![SwiftUI](https://img.shields.io/badge/SwiftUI-0080FF?logo=swift&logoColor=white)](https://developer.apple.com/xcode/swiftui/)
+[![Steam](https://img.shields.io/badge/Steam-Web%20API-1b2838?logo=steam&logoColor=white)](https://steamcommunity.com/dev)
+[![License](https://img.shields.io/badge/License-MIT-3DA639)](LICENSE)
 
 <br/>
 
@@ -24,40 +24,40 @@ into every game's stats and achievements — in a clean, native SwiftUI app.
 </a>
 &nbsp;
 <a href="https://www.linkedin.com/posts/enzoferroni_gostaria-de-compartilhar-com-voc%C3%AAs-um-projeto-ugcPost-7358562327186620417-LI9j/">
-  <img src="https://img.shields.io/badge/▶_Watch_the_demo-on_LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="Watch the demo on LinkedIn"/>
+  <img src="https://img.shields.io/badge/▶_Watch_the_demo-on_LinkedIn-0A66C2?logo=linkedin&logoColor=white" alt="Watch the demo on LinkedIn"/>
 </a>
 
 </div>
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 
-- [About](#-about)
-- [Screenshots](#-screenshots)
-- [Features](#-features)
-- [How It Works](#-how-it-works)
-- [Tech Stack](#-tech-stack)
-- [Project Structure](#-project-structure)
-- [Getting Started](#-getting-started)
-- [Author](#-author)
-- [License](#-license)
+- [About](#about)
+- [Screenshots](#screenshots)
+- [Features](#features)
+- [How It Works](#how-it-works)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+- [Author](#author)
+- [License](#license)
 
 ---
 
-## ✨ About
+## About
 
 **GameSource** is a native **SwiftUI** iOS app that connects to your **Steam**
 account through Steam OpenID, then brings your entire game library to life: cover
-art, playtime, completion progress, and the full achievement list for every title —
+art, playtime, completion progress, and the full achievement list for every title,
 all fetched live from the **Steam Web API**.
 
-No passwords are ever handled by the app — authentication happens entirely on
+No passwords are ever handled by the app; authentication happens entirely on
 Steam's own login page.
 
 ---
 
-## 📱 Screenshots
+## Screenshots
 
 <div align="center">
 
@@ -73,19 +73,19 @@ Steam's own login page.
 
 ---
 
-## 🚀 Features
+## Features
 
-- 🔐 **Sign in with Steam** — secure OpenID login, no credentials touch the app
-- 📚 **Full game library** — cover art, playtime and quick browsing
-- 🔎 **Search & filter** — find games by name and sort/filter your collection
-- 🏆 **Achievements** — per-game progress, completion %, and unlock dates
-- 🎯 **Game recommendations** — personalized suggestions from your library
-- 🔔 **Notifications** — configurable notification settings
-- 🌙 **Native dark UI** — polished SwiftUI interface, light & dark icon variants
+- **Sign in with Steam**: secure OpenID login, no credentials touch the app
+- **Full game library**: cover art, playtime and quick browsing
+- **Search & filter**: find games by name and sort/filter your collection
+- **Achievements**: per-game progress, completion %, and unlock dates
+- **Game recommendations**: personalized suggestions from your library
+- **Notifications**: configurable notification settings
+- **Native dark UI**: polished SwiftUI interface, light & dark icon variants
 
 ---
 
-## 🧠 How It Works
+## How It Works
 
 GameSource authenticates with **Steam OpenID** and reads data from the **Steam Web API**:
 
@@ -106,7 +106,7 @@ SteamLoginButton ──▶ Steam OpenID ──▶ index.html ──▶ loginstea
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Language:** Swift 5
 - **UI:** SwiftUI
@@ -117,7 +117,7 @@ SteamLoginButton ──▶ Steam OpenID ──▶ index.html ──▶ loginstea
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 GameSource/GameSource/
@@ -145,7 +145,7 @@ GameSource/GameSource/
 
 ---
 
-## 🎯 Getting Started
+## Getting Started
 
 **Requirements:** Xcode 15+ and a [Steam Web API key](https://steamcommunity.com/dev/apikey).
 
@@ -159,7 +159,7 @@ cp GameSource/GameSource/APIKeys.plist.template GameSource/GameSource/APIKeys.pl
 ```
 
 3. Open `APIKeys.plist` and replace `YOUR_STEAM_API_KEY_HERE` with your Steam Web API key.
-   > `APIKeys.plist` is in `.gitignore` — your key is never committed.
+   > `APIKeys.plist` is in `.gitignore`: your key is never committed.
 
 ```bash
 # 4. Open the project in Xcode
@@ -170,7 +170,7 @@ open GameSource/GameSource.xcodeproj
 
 ---
 
-## 👤 Author
+## Author
 
 <div align="center">
   <table>
@@ -187,11 +187,11 @@ open GameSource/GameSource.xcodeproj
 
 ---
 
-## 📄 License
+## License
 
 Released under the [MIT License](LICENSE). © 2025 Enzo Ferroni.
 
 <div align="center">
 <br/>
-<sub>Not affiliated with Valve or Steam. Built with 💙 and SwiftUI.</sub>
+<sub>Not affiliated with Valve or Steam.</sub>
 </div>
