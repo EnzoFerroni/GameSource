@@ -23,7 +23,7 @@ struct GameDetailView: View {
     @State private var showingAchievements = false
 
     var body: some View {
-        NavigationStack {
+        CompatibleNavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
                     banner

@@ -40,7 +40,7 @@ struct NotificationSettingsView: View {
     }
 
     var body: some View {
-        NavigationStack {
+        CompatibleNavigationStack {
             Form {
                 Section {
                     Toggle("Daily game suggestion", isOn: $isEnabled)

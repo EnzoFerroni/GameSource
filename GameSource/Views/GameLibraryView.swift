@@ -30,7 +30,7 @@ struct GameLibraryView: View {
     ]
 
     var body: some View {
-        NavigationStack {
+        CompatibleNavigationStack {
             content
                 .navigationTitle("Library")
                 .searchable(
@@ -166,10 +166,10 @@ struct GameLibraryView: View {
     private var emptyState: some View {
         ScrollView {
             if viewModel.searchText.isEmpty {
-                ContentUnavailableView {
-                    Label("No games found", systemImage: "gamecontroller")
-                } description: {
-                    Text("""
+                UnavailableView(
+                    "No games found",
+                    systemImage: "gamecontroller",
+                    description: """
                         Your library may be empty or your Steam profile may be set to private. \
                         Your network may also be blocking the Steam API.
 
@@ -178,15 +178,19 @@ struct GameLibraryView: View {
                         2. Tap Edit Profile → Privacy Settings
                         3. Set "Game details" to Public
                         4. Save and reload below
-                        """)
-                } actions: {
+                        """
+                ) {
                     Button("Reload") {
                         Task { await viewModel.loadGames(steamID: steamID) }
                     }
                     .buttonStyle(.borderedProminent)
                 }
             } else {
-                ContentUnavailableView.search(text: viewModel.searchText)
+                UnavailableView(
+                    "No results for \"\(viewModel.searchText)\"",
+                    systemImage: "magnifyingglass",
+                    description: "Check the spelling or try a new search."
+                )
             }
         }
         .refreshable {
@@ -195,11 +199,11 @@ struct GameLibraryView: View {
     }
 
     private func errorState(message: String) -> some View {
-        ContentUnavailableView {
-            Label("Something went wrong", systemImage: "wifi.exclamationmark")
-        } description: {
-            Text(message)
-        } actions: {
+        UnavailableView(
+            "Something went wrong",
+            systemImage: "wifi.exclamationmark",
+            description: message
+        ) {
             Button("Try Again") {
                 Task {
                     await viewModel.loadGames(steamID: steamID)
